@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>I Semana de Tecnologia de ADS</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Roboto+Mono&display=swap');
+
+    body {
+      background-color: #0e0e0e;
+      color: white;
+      font-family: 'Roboto Mono', monospace;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #0e0e0e;
+      padding: 10px 0;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    header ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    header ul li {
+      margin-right: 40px;
+    }
+
+    header ul li a {
+      color: white;
+      text-decoration: none;
+      font-family: 'Roboto Slab', serif;
+      font-size: 26px;
+      transition: color 0.3s;
+    }
+
+    header ul li a:hover {
+      color: #7a679d;
+    }
+
+    .section {
+      padding: 80px 0;
+      text-align: center;
+      font-family: 'Roboto Mono', monospace;
+    }
+
+    .section h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      font-size: 18px;
+      margin-bottom: 40px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .image-container img {
+      width: 80%;
+      max-width: 960px;
+    }
+
+    .divider {
+      border-bottom: 1px solid white;
+      margin-top: 30px;
+    }
+
+    .menu-dias {
+     display: flex;
+     justify-content: center;
+     list-style-type: none;
+     margin: 0;
+     padding: 0;
+    }
+
+    .menu-dias li {
+     margin-right: 20px;
+    }
+
+    .menu-dias li:last-child {
+     margin-right: 0;
+    }
+
+    .menu-dias li a {
+     color: white;
+     text-decoration: none;
+     font-family: 'Roboto Slab', serif;
+     font-size: 16px;
+     transition: color 0.3s;
+    }
+
+    .menu-dias li a:hover {
+     color: #7a679d;
+    }
+
+    .lineup-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      flex-direction: column;
+    }
+
+    .lineup-item {
+      flex: 0 0 120px;
+      margin: 10px;
+      padding: 5px;
+      background-color: #333;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .lineup-item h4 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .lineup-item p {
+      font-size: 14px;
+    }
+
+    .map-container {
+      width: 100%;
+      height: 400px;
+      margin-bottom: 40px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #7a679d;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: purple;
+    }
+
+    .day-content {
+      display: none;
+    }
+
+    .day-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <ul>
+      <li><a href="#inicio">Início</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#programacao">Programação</a></li>
+      <li><a href="#local">Local</a></li>
+      <li><a href="#inscricao">Inscrição</a></li>
+    </ul>
+  </header>
+  <div class="container">
+    <div class="section" id="inicio">
+      <div class="image-container">
+        <img src="evento.jpg" alt="Imagem do Evento">
+      </div>
+    </div>
+    
+    <div id="sobre" class="section">
+      <h2>Sobre</h2>
+
+      <p>A Semana de Tecnologia de ADS é um evento organizado por alunos do curso de Análise e Desenvolvimento de Sistemas - IFPE Campus Recife, e tem como objetivo reunir estudantes, professores e profissionais da área de TI para compartilhar conhecimentos, promover discussões e apresentar as últimas tendências e inovações do setor.</p>
+      <a href="https://www.instagram.com/daads.ifpe/">
+        <img src="instagram.png" alt="Imagem do Evento" width="64" height="64">
+      </a>
+      <div class="divider"></div>
+    </div>
+    <div id="programacao" class="section">
+      <h2>Programação</h2>
+      <ul class="menu-dias">
+        <li><a href="#dia-03" class="active">03/07</a></li>
+        <li><a href="#dia-04">04/07</a></li>
+        <li><a href="#dia-05">05/07</a></li>
+        <li><a href="#dia-06">06/07</a></li>
+        <li><a href="#dia-07">07/07</a></li>
+      </ul>
+
+      <div id="dia-03" class="day-content active">
+       <h3>03/07 - Segunda-feira</h3>
+       <div class="lineup-container">
+        <div class="lineup-item">
+         <h5>Curso</h5>
+         <h4>Programação para iniciantes em Python</h4>
+         <p style="font-size: 12px;">Sala F-47 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Minicurso</h5>
+         <h4>Otimização de código aplicado a programação</h4>
+         <p style="font-size: 12px;">Auditório CP | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Minicurso</h5>
+         <h4>Visão Computacional</h4>
+         <p style="font-size: 12px;">Sala F-49 | 08:00 - 11:00</p>
+        </div>
+	<div class="lineup-item">
+         <h5>Oficina</h5>
+         <h4>Introdução a Cloud Computing com AWS</h4>
+         <p style="font-size: 12px;">Sala F-47 | 18:00 - 21:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Oficina</h5>
+         <h4>Introdução ao Kubernetes</h4>
+         <p style="font-size: 12px;">Sala F-49 | 18:30 - 21:00</p>
+        </div>
+       </div>
+      </div>
+
+
+      <div id="dia-04" class="day-content">
+       <h3>04/07 - Terça-feira</h3>
+       <div class="lineup-container">
+        <div class="lineup-item">
+         <h5>Curso</h5>
+         <h4>Programação para iniciantes em Python</h4>
+         <p style="font-size: 12px;">Sala F-47 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Minicurso</h5>
+         <h4>Otimização de código aplicado a programação</h4>
+         <p style="font-size: 12px;">Auditório CP | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Minicurso</h5>
+         <h4>Visão Computacional</h4>
+         <p style="font-size: 12px;">Sala F-49 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Porto Digital: Oportunidades de mudanças positivas de mundo</h4>
+         <p style="font-size: 12px;">Auditório CP | 11:00 - 12:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Oficina</h5>
+         <h4>Design UI e UX</h4>
+         <p style="font-size: 12px;">Sala F-47 | 14:00 - 17:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Apresentação de Trabalho</h5>
+         <h4>TCC - Webassembly: Estudo de caso - Reconhecimento de dígitos manuscritos</h4>
+         <p style="font-size: 12px;">Sala F-48 | 18:30 - 19:30</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Graylog: Ferramenta OpenSource para monitoramento</h4>
+         <p style="font-size: 12px;">Sala F-47 | 19:00 - 20:00</p>
+        </div>
+       </div>
+      </div>
+
+      <div id="dia-05" class="day-content">
+       <h3>05/07 - Quarta-feira</h3>
+       <div class="lineup-container">
+        <div class="lineup-item">
+         <h5>Curso</h5>
+         <h4>Programação para iniciantes em Python</h4>
+         <p style="font-size: 12px;">Sala F-47 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Minicurso</h5>
+         <h4>Otimização de código aplicado a programação</h4>
+         <p style="font-size: 12px;">Auditório CP | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Minicurso</h5>
+         <h4>Visão Computacional</h4>
+         <p style="font-size: 12px;">Sala F-49 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Ferramentas Low Code para criar sistemas no segmento de consultoria empresarial</h4>
+         <p style="font-size: 12px;">Auditório CP | 11:00 - 12:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Arduino e Esp</h4>
+         <p style="font-size: 12px;">Auditório CP | 14:00 - 15:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Oficina</h5>
+         <h4>Git e GitHub</h4>
+         <p style="font-size: 12px;">Sala F-48 | 14:00 - 17:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Intercionalização</h4>
+         <p style="font-size: 12px;">Auditório CP | 17:00 - 18:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Mercado de trabalho para estudantes de ADS</h4>
+         <p style="font-size: 12px;">Auditório CP | 19:00 - 20:00</p>
+        </div>
+       </div>
+      </div>
+
+      <div id="dia-06" class="day-content">
+       <h3>06/07 - Quinta-feira</h3>
+       <div class="lineup-container">
+        <div class="lineup-item">
+         <h5>Curso</h5>
+         <h4>Programação para iniciantes em Python</h4>
+         <p style="font-size: 12px;">Sala F-47 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Minicurso</h5>
+         <h4>Visão Computacional</h4>
+         <p style="font-size: 12px;">Sala F-49 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Dados, Inteligência Artificial e futuro: no caminho a gente explica?</h4>
+         <p style="font-size: 12px;">Auditório CP | 10:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Oficina</h5>
+         <h4>Teachable Machine: Desvendando os mistérios de uma IA</h4>
+         <p style="font-size: 12px;">Sala F-47 | 14:00 - 15:30</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>GLOBO - Ctrl + Alt + TV: Explorando  a tecnologia na produção de conteúdo e transmissão para a TV</h4>
+         <p style="font-size: 12px;">Auditório CP | 15:00 - 16:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Oficina</h5>
+         <h4>IA em nosso tempo</h4>
+         <p style="font-size: 12px;">Auditório CP | 18:00 - 21:00</p>
+        </div>
+       </div>
+      </div>
+
+      <div id="dia-07" class="day-content">
+       <h3>07/07 - Sexta-feira</h3>
+       <div class="lineup-container">
+        <div class="lineup-item">
+         <h5>Curso</h5>
+         <h4>Programação para iniciantes em Python</h4>
+         <p style="font-size: 12px;">Sala F-47 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Oficina</h5>
+         <h4>Mercado financeiro em Python</h4>
+         <p style="font-size: 12px;">Sala F-48 | 08:00 - 11:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Apresentação do projeto de extensão Tarponise</h4>
+         <p style="font-size: 12px;">Auditório CP | 11:00 - 12:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Oficina</h5>
+         <h4>Os princípios do UX e UI com os plugins do Figma</h4>
+         <p style="font-size: 12px;">Sala F-47 | 14:00 - 16:00</p>
+        </div>
+        <div class="lineup-item">
+         <h5>Palestra</h5>
+         <h4>Competências transversais do profissional do amanhã</h4>
+         <p style="font-size: 12px;">Auditório CP | 18:00 - 19:00</p>
+        </div>
+       </div>
+      </div>
+
+      <div class="divider"></div>
+    </div>
+    <div id="local" class="section">
+      <h2>Local</h2>
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3947.8238363177783!2d-34.95370878465961!3d-8.055774082551835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ab1963a4ee6fb1%3A0xc6acba5f31257d0d!2sAv.%20Prof.%20Luiz%20Freire%2C%20500%20-%20Cidade%20Universit%C3%A1ria%2C%20Recife%20-%20PE%2C%2050740-545!5e0!3m2!1sen!2sbr!4v1623601282761!5m2!1sen!2sbr" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+      </div>
+      <p>Auditório do CP e Bloco F</p>
+      <div class="divider"></div>
+    </div>
+    <div id="inscricao" class="section">
+      <p> E aí, vai perder a chance de participar dessa semana incrível que reúne estudantes, professores e profissionais da área de TI para compartilhar conhecimentos, discutir tendências e se atualizar com as últimas inovações? Claro que não, né? Então não perca tempo, inscreva-se agora e não fique de fora dessa!</p>
+      <a href="https://www.even3.com.br/stads/" class="cta-button">INSCREVA-SE AGORA</a>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Mostra o conteúdo do dia selecionado ao clicar no menu "Programação"
+    const menuDiasLinks = document.querySelectorAll('.menu-dias a');
+    const dayContents = document.querySelectorAll('.day-content');
+
+    menuDiasLinks.forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Remove a classe "active" de todos os elementos
+        menuDiasLinks.forEach(item => {
+          item.classList.remove('active');
+        });
+
+        // Adiciona a classe "active" ao item clicado
+        this.classList.add('active');
+
+        // Mostra o conteúdo do dia correspondente
+        const selectedDay = this.getAttribute('href');
+        dayContents.forEach(content => {
+          content.classList.remove('active');
+          if (content.id === selectedDay.substring(1)) {
+            content.classList.add('active');
+          }
+        });
+      });
+    });
+
+  </script>
+</body>
+</html>
