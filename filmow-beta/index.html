@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cinemateca do augusto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="wrapper">
+        <nav>
+            <header>
+                <p>cinemateca do augusto 🎥🍿</p>
+            </header>
+            <ul>
+                <!-- <li id="li-favs" class="menu-normal"><a href="#" id="menu-favs"><i class="fa-solid fa-star"></i>Favoritos</a></li> -->
+                <li id="li-filmes" class="menu-normal"><a href="#" id="menu-filmes">Filmes</a></li>
+                <li id="li-series" class="menu-normal"><a href="#" id="menu-series">Series</a></li>
+                <li id="li-animes" class="menu-normal"><a href="#" id="menu-animes">Animes</a></li>
+                <li id="li-favs" class="menu-normal"><a href="#" id="menu-favs"><i class="fa-solid fa-star"></i>Favoritos (em breve)</a></li>
+                <!-- <li><a><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</a></li> -->
+            </ul>
+        </nav>
+    
+        <main>
+            <h1 id="welcome" class="exibir-conteudo">Bem-vindo à cinemateca mais chill do IFPE :)</h1>
+            <div id="buttons">
+                <button id="add-button" class="esconder-conteudo">Adicionar obra</button>
+                <dialog id="add-dialog">
+                    <form id="add-form">
+                        <label for="title">Título:</label><br>
+                        <input type="text" id="title" name="title" required><br><br>
+                
+                        <label for="year">Ano:</label><br>
+                        <input type="text" id="year" name="year" required><br><br>
+                
+                        <label for="genre">Gênero:</label><br>
+                        <input type="text" id="genre" name="genre" required><br><br>
+                
+                        <label for="poster">URL do Pôster:</label><br>
+                        <input type="text" id="poster" name="poster" required><br><br>
+                
+                        <button type="button" id="close-dialog">Cancelar</button>
+                        <button type="submit">Adicionar</button>
+                    </form>
+                </dialog>
+                <!-- <button id="rmv-button" class="esconder-conteudo">Remover obra</button>    -->
+            </div>
+
+            <div id="filmes-content" class="esconder-conteudo">
+                
+            </div>
+            
+            <div id="series-content" class="esconder-conteudo">
+                
+            </div>
+
+            <div id="animes-content" class="esconder-conteudo">
+    
+            </div>
+
+            <div id="favs-content" class="esconder-conteudo">
+                
+            </div>
+        </main>
+    </div>
+    <script src="main.js"></script>
+    <script src="filmes.js"></script>
+    <script src="series.js"></script>
+    <script src="animes.js"></script>
+</body>
+</html>
