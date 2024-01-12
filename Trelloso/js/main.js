@@ -10,8 +10,10 @@ let login = document.getElementById("login");
 let formLogin = document.getElementById("form-login");
 let formCreateUser = document.getElementById("form-create-user");
 let createUser = document.getElementById("create-user");
+let menuProfile = document.getElementById("menu-profile");
 let listUsers = document.getElementById("list-users");
 let btnListUsers = document.getElementById("btn-users");
+let spanMeContent = document.getElementById("me-content");
 let spanMe = document.getElementById("me");
 let sidebar = document.getElementById("sidebar");
 let headerMenu = document.getElementById("home-header");
@@ -38,9 +40,15 @@ formLogin.addEventListener("submit", (event) => {
 
     mainContainer.classList.remove("logged-off");
     mainContainer.classList.add("logged-in");
+    forms.classList.remove("show-content-grid");
+    forms.classList.add("hide-content");
 
     classesToToggle.forEach((element) => {
-      if (element === spanMe || element === sidebar || element === headerMenu) {
+      if (
+        element === boardsContent ||
+        element === sidebar ||
+        element === headerMenu
+      ) {
         element.classList.remove("hide-content");
         element.classList.add("show-content");
         headerMenu.classList.add("show-content-flex");
@@ -50,10 +58,29 @@ formLogin.addEventListener("submit", (event) => {
       }
     });
 
+    listBoards.innerHTML = "";
+    Board.myBoards().then((boards) => {
+      for (let board of boards) {
+        const li = document.createElement("li");
+        li.setAttribute("board-id", board.id);
+        const nameDiv = document.createElement("div");
+        nameDiv.id = "board-title";
+        nameDiv.innerHTML = board.name;
+        nameDiv.style.backgroundColor = board.color;
+        const starDiv = document.createElement("div");
+        starDiv.id = "fav-star";
+        starDiv.style.backgroundColor = board.color;
+        const starIcon = document.createElement("i");
+        starIcon.className = "fa-regular fa-star";
+        starDiv.appendChild(starIcon);
+        li.appendChild(nameDiv);
+        li.appendChild(starDiv);
+        listBoards.appendChild(li);
+      }
+    });
+
     User.me()
       .then((me) => {
-        const userString = `Name: ${me.name}<br>Username: ${me.username}<br> Avatar: ${me.avatar_url}`;
-        spanMe.innerHTML = userString;
         const nameString = `Área de trabalho de ${me.name}`;
         homeIntro.innerHTML = nameString;
       })
@@ -153,6 +180,7 @@ homeSair.addEventListener("click", (event) => {
 
   spanMe.innerHTML = "";
   homeIntro.innerHTML = "";
+  listBoards.innerHTML = "";
 
   mainContainer.classList.remove("logged-in");
   mainContainer.classList.add("logged-off");
@@ -170,6 +198,34 @@ homeSair.addEventListener("click", (event) => {
   });
 });
 
+menuProfile.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  forms.classList.remove("hide-content");
+  forms.classList.add("show-content-grid");
+
+  spanMe.innerHTML = "";
+  User.me()
+    .then((me) => {
+      const userString = `Name: ${me.name}<br>Username: ${me.username}<br> Avatar: ${me.avatar_url}`;
+      spanMe.innerHTML = userString;
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
+
+  classesToToggle.forEach((element) => {
+    if (element === spanMeContent || element === sidebar || element === headerMenu) {
+      element.classList.remove("hide-content");
+      element.classList.add("show-content");
+      headerMenu.classList.add("show-content-flex");
+    } else {
+      element.classList.remove("show-content");
+      element.classList.add("hide-content");
+    }
+  });
+});
+
 boards.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -177,15 +233,19 @@ boards.addEventListener("click", (event) => {
   Board.myBoards().then((boards) => {
     for (let board of boards) {
       const li = document.createElement("li");
-      li.innerHTML = board.name;
-      li.style.backgroundColor = board.color;
-      const starContainer = document.createElement("div");
-      starContainer.id = "fav-star";
-      starContainer.style.backgroundColor = board.color;
+      li.setAttribute("board-id", board.id);
+      const nameDiv = document.createElement("div");
+      nameDiv.id = "board-title";
+      nameDiv.innerHTML = board.name;
+      nameDiv.style.backgroundColor = board.color;
+      const starDiv = document.createElement("div");
+      starDiv.id = "fav-star";
+      starDiv.style.backgroundColor = board.color;
       const starIcon = document.createElement("i");
       starIcon.className = "fa-regular fa-star";
-      starContainer.appendChild(starIcon);
-      li.appendChild(starContainer);
+      starDiv.appendChild(starIcon);
+      li.appendChild(nameDiv);
+      li.appendChild(starDiv);
       listBoards.appendChild(li);
     }
   });
@@ -208,14 +268,26 @@ boards.addEventListener("click", (event) => {
   });
 });
 
-homeHome.addEventListener("onclick", (event) => {
+homeHome.addEventListener("click", (event) => {
   event.preventDefault();
 
   listBoards.innerHTML = "";
   Board.myBoards().then((boards) => {
     for (let board of boards) {
       const li = document.createElement("li");
-      li.innerHTML = board.boardName;
+      li.setAttribute("board-id", board.id);
+      const nameDiv = document.createElement("div");
+      nameDiv.id = "board-title";
+      nameDiv.innerHTML = board.name;
+      nameDiv.style.backgroundColor = board.color;
+      const starDiv = document.createElement("div");
+      starDiv.id = "fav-star";
+      starDiv.style.backgroundColor = board.color;
+      const starIcon = document.createElement("i");
+      starIcon.className = "fa-regular fa-star";
+      starDiv.appendChild(starIcon);
+      li.appendChild(nameDiv);
+      li.appendChild(starDiv);
       listBoards.appendChild(li);
     }
   });
@@ -252,15 +324,19 @@ formCreateBoard.addEventListener("submit", (event) => {
       formCreateBoard.reset();
 
       const li = document.createElement("li");
-      li.innerHTML = board.name;
-      li.style.backgroundColor = board.color;
-      const starContainer = document.createElement("div");
-      starContainer.id = "fav-star";
-      starContainer.style.backgroundColor = board.color;
+      li.setAttribute("board-id", board.id);
+      const nameDiv = document.createElement("div");
+      nameDiv.id = "board-title";
+      nameDiv.innerHTML = board.name;
+      nameDiv.style.backgroundColor = board.color;
+      const starDiv = document.createElement("div");
+      starDiv.id = "fav-star";
+      starDiv.style.backgroundColor = board.color;
       const starIcon = document.createElement("i");
       starIcon.className = "fa-regular fa-star";
-      starContainer.appendChild(starIcon);
-      li.appendChild(starContainer);
+      starDiv.appendChild(starIcon);
+      li.appendChild(nameDiv);
+      li.appendChild(starDiv);
       listBoards.appendChild(li);
     })
     .catch((error) => {
