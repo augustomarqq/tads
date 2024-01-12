@@ -1,73 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Document</title>
-    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon" />
     <script defer type="module" src="js/main.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="main-container" class="logged-off">
-        <div id="header">
-            <h1 id="trelloso">Trelloso Client</h1>
-            <ul id="header-menu" class="hide-content">
-                <li><a href="#" id="home-menu"></a>Home</li>
-                <li><a href="#" id="criar-board">Criar</a></li>
-                <li><a href="#login" id="home-sair">Sair</a></li>
-            </ul>
-        </div>
-        <div id="sidebar" class="hide-content">
-            <p id="home-intro"></p>
-            <ul id="home-user">
-                <li><a href="#">Perfil</a></li>
-                <li><a href="#">Quadros</a></li>
-                <li><a href="#">Destaques</a></li>
-            </ul>
-        </div>
-        <div id="content">
-            <div id="forms">
-                <fieldset id="me" class="hide-content">
-                    <legend>Meus Dados</legend>
-                    <span id="me"></span>
-                </fieldset>
-        
-                <fieldset id="create-user" class="hide-content">
-                    <legend>Cadastrar Usuário</legend>
-                    <form id="form-create-user" autocomplete="on">
-                        <input type="text" name="name" id="new-name" placeholder="Nome" required>
-                        <input type="text" name="username" id="new-username" placeholder="Username" required>
-                        <input type="password" name="password" id="new-password" placeholder="Password" required>
-                        <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirmar Password">
-                        <input type="text" name="avatar" id="new-avatar" placeholder="Avatar URL">
-                        <input type="submit" value="Ok">
-                        <input type="reset" value="Cancelar">
-                        <a href="#login" id="ref-fazer-login">Já tem uma conta do Trelloso? Entrar</a>
-                    </form>
-                </fieldset>
-        
-                <fieldset id="login" class="show-content">
-                    <legend>Login</legend>
-                    <form id="form-login" autocomplete="on">
-                        <input type="text" name="username" id="username" placeholder="Username">
-                        <input type="password" name="password" id="password" placeholder="Password">
-                        <input type="submit" value="Ok">
-                        <input type="reset" value="Cancelar">
-                        <a href="#create-user" id="ref-create-acc">Criar uma conta</a>
-                    </form>
-                </fieldset>
-        
-                <fieldset id="users" class="hide-content">
-                    <legend>Listar Usuários</legend>
-                    <button id="btn-users">Lista Usuários</button>
-                    <ul id="list-users"></ul>
-                </fieldset>
-            </div>
-        </div>
-    </div>
-</body>
+      <div id="header">
+        <h1 id="trelloso">Trelloso Client</h1>
+        <ul id="home-header" class="hide-content">
+          <li><a href="#boards-content" id="home-home"></a>Home</li>
+          <li><a href="#login" id="home-sair">Sair</a></li>
+        </ul>
+      </div>
+      <div id="sidebar" class="hide-content">
+        <p id="home-intro"></p>
+        <ul id="home-user">
+          <li><a href="#">Perfil</a></li>
+          <li><a href="#" id="menu-boards">Quadros</a></li>
+          <li><a href="#">Destaques</a></li>
+          <li><a href="#users" id="menu-users">Usuários</a></li>
+        </ul>
+      </div>
+      <div id="content">
+        <div id="forms" class="show-content-grid">
+          <fieldset id="me" class="hide-content">
+            <legend>Meus Dados</legend>
+            <span id="me"></span>
+          </fieldset>
 
+          <fieldset id="create-user" class="hide-content">
+            <legend>Cadastrar Usuário</legend>
+            <form id="form-create-user" autocomplete="on">
+              <input
+                type="text"
+                name="name"
+                id="new-name"
+                placeholder="Nome"
+                required
+              />
+              <input
+                type="text"
+                name="username"
+                id="new-username"
+                placeholder="Username"
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                id="new-password"
+                placeholder="Password"
+                required
+              />
+              <input
+                type="password"
+                name="confirm-password"
+                id="confirm-password"
+                placeholder="Confirmar Password"
+              />
+              <input
+                type="text"
+                name="avatar"
+                id="new-avatar"
+                placeholder="Avatar URL"
+              />
+              <input type="submit" value="Ok" />
+              <input type="reset" value="Cancelar" />
+              <a href="#login" id="ref-fazer-login"
+                >Já tem uma conta do Trelloso? Entrar</a
+              >
+            </form>
+          </fieldset>
+
+          <fieldset id="login" class="show-content">
+            <legend>Login</legend>
+            <form id="form-login" autocomplete="on">
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+              />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+              />
+              <input type="submit" value="Ok" />
+              <input type="reset" value="Cancelar" />
+              <a href="#create-user" id="ref-create-acc">Criar uma conta</a>
+            </form>
+          </fieldset>
+
+          <fieldset id="users" class="hide-content">
+            <legend>Listar Usuários</legend>
+            <button id="btn-users">Lista Usuários</button>
+            <ul id="list-users"></ul>
+          </fieldset>
+        </div>
+        
+        <div id="boards-content" class="hide-content">
+          <div id="boards-menu">
+            <ul>
+              <form id="form-board">
+                <label>
+                  Título do quadro:
+                  <input type="text" id="new-title" required />
+                </label>
+                <label>Tela de fundo:</label>
+                <select id="color-dropdown" name="colorDropdown">
+                  <option value="#d42020" id="red">Red</option>
+                  <option value="#209b20" id="green">Green</option>
+                  <option value="#2525e9" id="blue">Blue</option>
+                  <option value="#c75a7e" id="pink">Pink</option>
+                  <option value="#e4d612" id="yellow">Yellow</option>
+                </select>
+                <input type="submit" value="Criar novo quadro" />
+              </form>
+            </ul>
+          </div>
+          <div id="boards">
+            <ul id="list-boards"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
