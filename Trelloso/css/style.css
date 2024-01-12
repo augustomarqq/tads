@@ -12,71 +12,75 @@ body {
   font: 1.5rem "Open Sans", sans-serif;
   line-height: 1.5;
   height: 100vh;
-  color: #9EACBA;
+  color: #9eacba;
 }
 
 .show-content {
-    display: block;
+  display: block;
 }
 
 .show-content-flex {
-    display: flex;
+  display: flex;
+}
+
+.show-content-grid {
+  display: grid;
 }
 
 .hide-content {
-    display: none;
+  display: none;
 }
 
 .logged-off {
-    background-color: #333;
-    display: grid;
-    grid-template-columns: 256px 1fr;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-        'header header'
-        'content content'
-        'content content';
-    height: 100%;
+  background-color: #333;
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "header header"
+    "content content"
+    "content content";
+  height: 100%;
 }
 
 .logged-in {
-    background-color: #333;
-    display: grid;
-    grid-template-columns: 256px 1fr;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-        'header header'
-        'sidebar content'
-        'sidebar content';
-    height: 100%;
+  background-color: #333;
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar content"
+    "sidebar content";
+  height: 100%;
 }
 
 #main-container div {
-    background-color: #1D2125;
-    border: 1px solid #31383D;
-    padding: 20px;
+  background-color: #1d2125;
+  border: 1px solid #31383d;
+  padding: 20px;
 }
 
 #header {
-    grid-area: header;
-    background-color:#1D2125;
-    display: flex;
+  grid-area: header;
+  background-color: #1d2125;
+  display: flex;
 }
 
 #sidebar {
-    grid-area: sidebar;
-    background-color: #1D2125;
+  grid-area: sidebar;
+  background-color: #1d2125;
 }
 
 #content {
-    grid-area: content;
-    background-color: #1D2125;
+  grid-area: content;
+  background-color: #1d2125;
 }
 
 #forms {
-  display: grid;
+  /* display: grid; */
   gap: 20px;
-  background-color: #1D2125;
+  background-color: #1d2125;
 }
 
 fieldset {
@@ -84,28 +88,98 @@ fieldset {
   margin: 10px;
 }
 
-#header-menu, #home-user {
-    text-decoration: none;
-    list-style: none;
-    align-items: center;
-    font-weight: 600;
+#header-menu,
+#home-user {
+  text-decoration: none;
+  list-style: none;
+  align-items: center;
+  font-weight: 600;
 }
 
 h1#trelloso {
-    margin-right: 2rem;
+  margin-right: 2rem;
 }
 
 li {
-    margin: 1.2rem;
+  margin: 1.2rem;
+  list-style: none;
 }
 
 #ref-create-acc {
-    text-decoration: none;
-    list-style: none;
+  text-decoration: none;
+  list-style: none;
 }
 
 a {
-    text-decoration: none;
-    list-style: none;
-    color: #9EACBA;
+  text-decoration: none;
+  list-style: none;
+  color: #9eacba;
 }
+
+#main-container#boards-content {
+  border: none;
+}
+
+#create-new-board {
+    padding: 1rem;
+}
+
+div#boards-content {
+    border: none;
+}
+
+div#boards-content div#boards ul#list-boards {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 18rem;
+    border: none;
+}
+
+/* div#boards-content div#boards-menu {
+    border: none;
+} */
+
+div#boards-content div#boards {
+    border: none;
+}
+
+div#boards-content div#boards ul#list-boards li {
+  color: white;
+  height: 80px;
+  width: 20%;
+  border-radius: 2rem;
+  padding: 2rem;
+  cursor: pointer;
+}
+
+#red {
+    background-color: #d42020;
+    color: #d42020;
+}
+
+#green {
+    background-color: #209b20;
+    color: #209b20;
+}
+
+#blue {
+    background-color: #2525e9;
+    color: #2525e9;
+}
+
+#yellow {
+    background-color: #e4d612;
+    color: #e4d612;
+}
+
+#pink {
+    background-color: #c75a7e;
+    color: #c75a7e;
+}
+
+#main-container div #fav-star {
+    border: none;
+    height: 0;
+    margin-left: 20rem;
+    margin-top: -1rem;
+  }
