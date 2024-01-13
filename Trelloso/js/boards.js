@@ -16,4 +16,10 @@ async function create(name, color, favorito) {
     return newBoard;
 }
 
-export default {myBoards, create};
+async function getBoardLists(board_id) {
+    
+    const boardLists = await Fetch.request(`/boards/${board_id}/lists`)
+    return boardLists;
+}
+
+export default {myBoards, create, getBoardLists};

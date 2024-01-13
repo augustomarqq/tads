@@ -28,8 +28,9 @@ let boardsContent = document.getElementById("boards-content");
 let homeHome = document.getElementById("home-home");
 let boards = document.getElementById("menu-boards");
 let listBoards = document.getElementById("list-boards");
-let createBoard = document.getElementById("create-new-board");
+let listLists = document.getElementById("list-lists");
 let formCreateBoard = document.getElementById("form-board");
+let listsContent = document.getElementById("lists-content");
 
 formLogin.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -215,7 +216,11 @@ menuProfile.addEventListener("click", (event) => {
     });
 
   classesToToggle.forEach((element) => {
-    if (element === spanMeContent || element === sidebar || element === headerMenu) {
+    if (
+      element === spanMeContent ||
+      element === sidebar ||
+      element === headerMenu
+    ) {
       element.classList.remove("hide-content");
       element.classList.add("show-content");
       headerMenu.classList.add("show-content-flex");
@@ -343,4 +348,38 @@ formCreateBoard.addEventListener("submit", (event) => {
       console.log(error.message);
       alert("Erro ao criar quadro. Por favor, tente novamente.");
     });
+});
+
+listBoards.addEventListener('click', async function (event) {
+    event.preventDefault();
+
+    // Verifica se o elemento clicado é um <li> com atributo board-id
+    const liElement = event.target.closest('li');
+    const boardId = liElement.getAttribute('board-id');
+    if (boardId) {
+        // Chama a função para obter as listas associadas ao board-id
+        const boardLists = await Board.getBoardLists(boardId);
+
+        // Exibe as listas na <ul id="list-lists">
+        listLists.innerHTML = "";
+        for (let list of boardLists) {
+            const li = document.createElement('li');
+            li.innerHTML = list.name;
+            listLists.appendChild(li);
+        }
+
+        classesToToggle.forEach((element) => {
+            if (
+                element === listsContent ||
+                element === sidebar ||
+                element === headerMenu
+            ) {
+                element.classList.remove("hide-content");
+                element.classList.add("show-content");
+            } else {
+                element.classList.remove("show-content");
+                element.classList.add("hide-content");
+            }
+        });
+    }
 });

@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
     <link rel="shortcut icon" href="img/icon.png" type="image/x-icon" />
     <script defer type="module" src="js/main.js"></script>
   </head>
@@ -106,7 +109,6 @@
             <ul id="list-users"></ul>
           </fieldset>
         </div>
-
         <div id="boards-content" class="hide-content">
           <div id="boards-menu">
             <ul>
@@ -129,6 +131,22 @@
           </div>
           <div id="boards">
             <ul id="list-boards"></ul>
+          </div>
+        </div>
+        <div id="lists-content" class="hide-content">
+          <div id="lists-menu">
+            <ul>
+              <form id="form-list">
+                <label>
+                  Título da lista:
+                  <input type="text" id="new-list-title" required />
+                </label>
+                <input type="submit" value="Criar nova lista" />
+              </form>
+            </ul>
+          </div>
+          <div id="lists">
+            <ul id="list-lists"></ul>
           </div>
         </div>
       </div>
