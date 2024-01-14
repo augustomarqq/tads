@@ -55,6 +55,7 @@ body {
   height: 100%;
 }
 
+
 #main-container div {
   background-color: #1d2125;
   border: 1px solid #31383d;
@@ -75,6 +76,7 @@ body {
 #content {
   grid-area: content;
   background-color: #1d2125;
+  
 }
 
 #forms {
@@ -199,3 +201,69 @@ i {
   background-color: #c75a7e;
   color: #c75a7e;
 }
+
+#main-container#lists-content {
+    border: none;
+  }
+
+  div#lists-content {
+    border: none;
+  }
+  
+  /* div#lists-content div#lists ul#list-lists {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: none;
+  } */
+  
+  div#lists-content div#lists {
+    display: flex;
+    border: none;
+    align-items: start;
+  }
+  
+  div#lists-content div#lists div {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    background-color: grey;
+    height: auto;
+    width: 30rem;
+    cursor: pointer;
+    margin-right: 10rem;
+    /* padding: 2rem; */
+    border-radius: 1rem;
+    /* align-items: center; */
+  }
+  
+  /* div#lists-content div#lists ul#list-lists li div#list-title {
+      display: flex;
+      width: 100%;
+      border: none;
+      border-top-left-radius: 1rem;
+      border-bottom-left-radius: 1rem;
+      flex-wrap: wrap;
+      overflow: hidden;
+  } */
+
+ #main-container div#content .list-name {
+    display: flex;
+    width: 20rem;
+    border: none;
+  }
+
+  #main-container div#content .card-container {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    width: 22rem;
+    height: auto;
+  }
+
+  #main-container div#content .card-container .card-item {
+    display: flex;
+    width: 22rem;
+    margin: 0;
+    margin-bottom: 2rem;
+  }

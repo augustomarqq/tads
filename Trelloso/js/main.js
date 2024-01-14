@@ -28,9 +28,82 @@ let boardsContent = document.getElementById("boards-content");
 let homeHome = document.getElementById("home-home");
 let boards = document.getElementById("menu-boards");
 let listBoards = document.getElementById("list-boards");
-let listLists = document.getElementById("list-lists");
+let listLists = document.getElementById("lists");
+// let cardLists = document.getElementById("cards");
 let formCreateBoard = document.getElementById("form-board");
 let listsContent = document.getElementById("lists-content");
+
+function getToken() {
+  if (localStorage.getItem("token")) return localStorage.getItem("token");
+  else return null;
+}
+
+let verify = getToken();
+async function verificarToken() {
+  if (verify) {
+    mainContainer.classList.remove("logged-off");
+    mainContainer.classList.add("logged-in");
+    forms.classList.remove("show-content-grid");
+    forms.classList.add("hide-content");
+
+    listBoards.innerHTML = "";
+    Board.myBoards().then((boards) => {
+      for (let board of boards) {
+        const li = document.createElement("li");
+        li.setAttribute("board-id", board.id);
+        const nameDiv = document.createElement("div");
+        nameDiv.id = "board-title";
+        nameDiv.innerHTML = board.name;
+        nameDiv.style.backgroundColor = board.color;
+        const starDiv = document.createElement("div");
+        starDiv.id = "fav-star";
+        starDiv.style.backgroundColor = board.color;
+        const starIcon = document.createElement("i");
+        starIcon.className = "fa-regular fa-star";
+        starDiv.appendChild(starIcon);
+        li.appendChild(nameDiv);
+        li.appendChild(starDiv);
+        listBoards.appendChild(li);
+      }
+    });
+
+    classesToToggle.forEach((element) => {
+      if (
+        element === boardsContent ||
+        element === sidebar ||
+        element === headerMenu
+      ) {
+        element.classList.remove("hide-content");
+        element.classList.add("show-content");
+        headerMenu.classList.add("show-content-flex");
+      } else {
+        element.classList.remove("show-content");
+        element.classList.add("hide-content");
+      }
+    });
+  } else {
+
+    mainContainer.classList.remove("logged-in");
+    mainContainer.classList.add("logged-off");
+    forms.classList.remove("hide-content");
+    forms.classList.add("show-content-grid");
+
+    classesToToggle.forEach((element) => {
+        if (
+          element === login
+        ) {
+          element.classList.remove("hide-content");
+          element.classList.add("show-content");
+        } else {
+          element.classList.remove("show-content");
+          element.classList.add("hide-content");
+        }
+      });
+
+  }
+}
+
+verificarToken();
 
 formLogin.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -350,36 +423,57 @@ formCreateBoard.addEventListener("submit", (event) => {
     });
 });
 
-listBoards.addEventListener('click', async function (event) {
+listBoards.addEventListener("click", async function (event) {
     event.preventDefault();
-
+  
     // Verifica se o elemento clicado é um <li> com atributo board-id
-    const liElement = event.target.closest('li');
-    const boardId = liElement.getAttribute('board-id');
+    const liElement = event.target.closest("li");
+    const boardId = liElement.getAttribute("board-id");
     if (boardId) {
-        // Chama a função para obter as listas associadas ao board-id
-        const boardLists = await Board.getBoardLists(boardId);
-
-        // Exibe as listas na <ul id="list-lists">
-        listLists.innerHTML = "";
-        for (let list of boardLists) {
-            const li = document.createElement('li');
-            li.innerHTML = list.name;
-            listLists.appendChild(li);
+      // Chama a função para obter as listas associadas ao board-id
+      const boardLists = await Board.getBoardLists(boardId);
+  
+      // Exibe as listas na <ul id="list-lists">
+      listLists.innerHTML = "";
+  
+      for (let list of boardLists) {
+        const divMain = document.createElement("div");
+        divMain.id = `list-${list.id}`; // Adiciona um ID à div da lista
+        divMain.classList.add("list-container");
+  
+        // Div para o list.name
+        const divListName = document.createElement("div");
+        divListName.classList.add("list-name");
+        divListName.textContent = list.name;
+  
+        // Div para os card-item
+        const divCardContainer = document.createElement("div");
+        divCardContainer.classList.add("card-container");
+  
+        divMain.appendChild(divListName);
+        divMain.appendChild(divCardContainer);
+        listLists.appendChild(divMain);
+  
+        for (let card of list.cards) {
+          const divCard = document.createElement("div");
+          divCard.classList.add("card-item"); // Adiciona uma classe à div do card
+          divCard.textContent = card.name;
+          console.log(card);
+          divCardContainer.appendChild(divCard);
         }
-
-        classesToToggle.forEach((element) => {
-            if (
-                element === listsContent ||
-                element === sidebar ||
-                element === headerMenu
-            ) {
-                element.classList.remove("hide-content");
-                element.classList.add("show-content");
-            } else {
-                element.classList.remove("show-content");
-                element.classList.add("hide-content");
-            }
-        });
+      }
     }
-});
+      classesToToggle.forEach((element) => {
+        if (
+          element === listsContent ||
+          element === sidebar ||
+          element === headerMenu
+        ) {
+          element.classList.remove("hide-content");
+          element.classList.add("show-content");
+        } else {
+          element.classList.remove("show-content");
+          element.classList.add("hide-content");
+        }
+      });
+    });
