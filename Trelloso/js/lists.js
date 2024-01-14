@@ -1,7 +1,13 @@
-import Fetch from "./fetch";
+import Fetch from "./fetch.js";
 
-async function getListCards(list_id) {
-    
-    const listCards = await Fetch.request(`/lists/${list_id}/cards`)
-    return listCards;
+async function create(name, board_id, position) {
+    const list = {
+        name: name,
+        board_id: board_id,
+        position: position
+    }
+    const newList = await Fetch.request('/lists', list, 'POST');
+    return newList;
 }
+
+export default {create};

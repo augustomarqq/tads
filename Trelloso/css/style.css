@@ -227,7 +227,7 @@ i {
     display: flex;
     flex-direction: column;
     color: white;
-    background-color: grey;
+    background-color: #101204;
     height: auto;
     width: 30rem;
     cursor: pointer;
@@ -236,16 +236,6 @@ i {
     border-radius: 1rem;
     /* align-items: center; */
   }
-  
-  /* div#lists-content div#lists ul#list-lists li div#list-title {
-      display: flex;
-      width: 100%;
-      border: none;
-      border-top-left-radius: 1rem;
-      border-bottom-left-radius: 1rem;
-      flex-wrap: wrap;
-      overflow: hidden;
-  } */
 
  #main-container div#content .list-name {
     display: flex;
@@ -266,4 +256,5 @@ i {
     width: 22rem;
     margin: 0;
     margin-bottom: 2rem;
+    background-color: #22272B;
   }

@@ -1,6 +1,7 @@
 import User from "./users.js";
 import Token from "./token.js";
 import Board from "./boards.js";
+import List from "./lists.js";
 
 const classesToToggle = document.querySelectorAll(
   ".show-content, .hide-content"
@@ -29,16 +30,16 @@ let homeHome = document.getElementById("home-home");
 let boards = document.getElementById("menu-boards");
 let listBoards = document.getElementById("list-boards");
 let listLists = document.getElementById("lists");
-// let cardLists = document.getElementById("cards");
 let formCreateBoard = document.getElementById("form-board");
 let listsContent = document.getElementById("lists-content");
+let formCreateList = document.getElementById("form-list");
 
-function getToken() {
+function getTokenReload() {
   if (localStorage.getItem("token")) return localStorage.getItem("token");
   else return null;
 }
 
-let verify = getToken();
+let verify = getTokenReload();
 async function verificarToken() {
   if (verify) {
     mainContainer.classList.remove("logged-off");
@@ -82,24 +83,20 @@ async function verificarToken() {
       }
     });
   } else {
-
     mainContainer.classList.remove("logged-in");
     mainContainer.classList.add("logged-off");
     forms.classList.remove("hide-content");
     forms.classList.add("show-content-grid");
 
     classesToToggle.forEach((element) => {
-        if (
-          element === login
-        ) {
-          element.classList.remove("hide-content");
-          element.classList.add("show-content");
-        } else {
-          element.classList.remove("show-content");
-          element.classList.add("hide-content");
-        }
-      });
-
+      if (element === login) {
+        element.classList.remove("hide-content");
+        element.classList.add("show-content");
+      } else {
+        element.classList.remove("show-content");
+        element.classList.add("hide-content");
+      }
+    });
   }
 }
 
@@ -424,56 +421,80 @@ formCreateBoard.addEventListener("submit", (event) => {
 });
 
 listBoards.addEventListener("click", async function (event) {
-    event.preventDefault();
-  
-    // Verifica se o elemento clicado é um <li> com atributo board-id
-    const liElement = event.target.closest("li");
-    const boardId = liElement.getAttribute("board-id");
-    if (boardId) {
-      // Chama a função para obter as listas associadas ao board-id
-      const boardLists = await Board.getBoardLists(boardId);
-  
-      // Exibe as listas na <ul id="list-lists">
-      listLists.innerHTML = "";
-  
-      for (let list of boardLists) {
-        const divMain = document.createElement("div");
-        divMain.id = `list-${list.id}`; // Adiciona um ID à div da lista
-        divMain.classList.add("list-container");
-  
-        // Div para o list.name
-        const divListName = document.createElement("div");
-        divListName.classList.add("list-name");
-        divListName.textContent = list.name;
-  
-        // Div para os card-item
-        const divCardContainer = document.createElement("div");
-        divCardContainer.classList.add("card-container");
-  
-        divMain.appendChild(divListName);
-        divMain.appendChild(divCardContainer);
-        listLists.appendChild(divMain);
-  
-        for (let card of list.cards) {
-          const divCard = document.createElement("div");
-          divCard.classList.add("card-item"); // Adiciona uma classe à div do card
-          divCard.textContent = card.name;
-          console.log(card);
-          divCardContainer.appendChild(divCard);
-        }
+  event.preventDefault();
+
+  // Verifica se o elemento clicado é um <li> com atributo board-id
+  const liElement = event.target.closest("li");
+  const boardId = liElement.getAttribute("board-id");
+  localStorage.setItem("selectedBoardId", boardId);
+  console.log("Board selecionado:", boardId);
+  if (boardId) {
+    // Chama a função para obter as listas associadas ao board-id
+    const boardLists = await Board.getBoardLists(boardId);
+
+    // Exibe as listas na <ul id="list-lists">
+    listLists.innerHTML = "";
+
+    for (let list of boardLists) {
+      const divMain = document.createElement("div");
+      divMain.id = `list-${list.id}`; // Adiciona um ID à div da lista
+      divMain.classList.add("list-container");
+
+      // Div para o list.name
+      const divListName = document.createElement("div");
+      divListName.classList.add("list-name");
+      divListName.textContent = list.name;
+
+      // Div para os card-item
+      const divCardContainer = document.createElement("div");
+      divCardContainer.classList.add("card-container");
+
+      divMain.appendChild(divListName);
+      divMain.appendChild(divCardContainer);
+      listLists.appendChild(divMain);
+
+      for (let card of list.cards) {
+        const divCard = document.createElement("div");
+        divCard.classList.add("card-item"); // Adiciona uma classe à div do card
+        divCard.textContent = card.name;
+        divCard.id = `card-${card.id}`;
+        console.log(card);
+        divCardContainer.appendChild(divCard);
       }
     }
-      classesToToggle.forEach((element) => {
-        if (
-          element === listsContent ||
-          element === sidebar ||
-          element === headerMenu
-        ) {
-          element.classList.remove("hide-content");
-          element.classList.add("show-content");
-        } else {
-          element.classList.remove("show-content");
-          element.classList.add("hide-content");
-        }
-      });
+  }
+  classesToToggle.forEach((element) => {
+    if (
+      element === listsContent ||
+      element === sidebar ||
+      element === headerMenu
+    ) {
+      element.classList.remove("hide-content");
+      element.classList.add("show-content");
+    } else {
+      element.classList.remove("show-content");
+      element.classList.add("hide-content");
+    }
+  });
+});
+
+formCreateList.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const listName = document.getElementById("new-list-title").value;
+  const selectedBoardId = localStorage.getItem("selectedBoardId");
+  const position = 0;
+  console.log(listName, selectedBoardId, position);
+  List.create(listName, selectedBoardId, position)
+    .then((list) => {
+      console.log(list);
+      alert("Lista nova criada com sucesso!");
+      formCreateList.reset();
+      localStorage.removeItem("selectedBoardId");
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log(error.message);
+      alert("Erro ao criar lista. Por favor, tente novamente.");
     });
+});
