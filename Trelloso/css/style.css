@@ -234,13 +234,16 @@ i {
     margin-right: 10rem;
     /* padding: 2rem; */
     border-radius: 1rem;
-    /* align-items: center; */
+    align-items: center;
   }
 
  #main-container div#content .list-name {
     display: flex;
-    width: 20rem;
+    width: 25rem;
+    margin-right: 0;
     border: none;
+    padding: 0;
+    align-items: flex-start;
   }
 
   #main-container div#content .card-container {
@@ -249,6 +252,8 @@ i {
     border: none;
     width: 22rem;
     height: auto;
+    margin-right: 0;
+    padding-bottom: 0;
   }
 
   #main-container div#content .card-container .card-item {
@@ -257,4 +262,9 @@ i {
     margin: 0;
     margin-bottom: 2rem;
     background-color: #22272B;
+  }
+
+  .add-card-button {
+    padding: 0.8rem;
+    border-radius: 8px;
   }

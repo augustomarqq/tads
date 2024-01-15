@@ -36,7 +36,6 @@ let formCreateList = document.getElementById("form-list");
 
 function getTokenReload() {
   if (localStorage.getItem("token")) return localStorage.getItem("token");
-  else return null;
 }
 
 let verify = getTokenReload();
@@ -77,21 +76,6 @@ async function verificarToken() {
         element.classList.remove("hide-content");
         element.classList.add("show-content");
         headerMenu.classList.add("show-content-flex");
-      } else {
-        element.classList.remove("show-content");
-        element.classList.add("hide-content");
-      }
-    });
-  } else {
-    mainContainer.classList.remove("logged-in");
-    mainContainer.classList.add("logged-off");
-    forms.classList.remove("hide-content");
-    forms.classList.add("show-content-grid");
-
-    classesToToggle.forEach((element) => {
-      if (element === login) {
-        element.classList.remove("hide-content");
-        element.classList.add("show-content");
       } else {
         element.classList.remove("show-content");
         element.classList.add("hide-content");
@@ -421,32 +405,32 @@ formCreateBoard.addEventListener("submit", (event) => {
 });
 
 listBoards.addEventListener("click", async function (event) {
-    event.preventDefault();
-  
-    // Verifica se o elemento clicado é um <li> com atributo board-id
-    const liElement = event.target.closest("li");
-    const boardId = liElement.getAttribute("board-id");
-    localStorage.setItem("selectedBoardId", boardId);
-    console.log("Board selecionado:", boardId);
-    if (boardId) {
-      generateLists(boardId);
-    }
-    classesToToggle.forEach((element) => {
-      if (
-        element === listsContent ||
-        element === sidebar ||
-        element === headerMenu
-      ) {
-        element.classList.remove("hide-content");
-        element.classList.add("show-content");
-      } else {
-        element.classList.remove("show-content");
-        element.classList.add("hide-content");
-      }
-    });
-  });
+  event.preventDefault();
 
-    async function generateLists(boardId){
+  // Verifica se o elemento clicado é um <li> com atributo board-id
+  const liElement = event.target.closest("li");
+  const boardId = liElement.getAttribute("board-id");
+  localStorage.setItem("selectedBoardId", boardId);
+  console.log("Board selecionado:", boardId);
+  if (boardId) {
+    generateLists(boardId);
+  }
+  classesToToggle.forEach((element) => {
+    if (
+      element === listsContent ||
+      element === sidebar ||
+      element === headerMenu
+    ) {
+      element.classList.remove("hide-content");
+      element.classList.add("show-content");
+    } else {
+      element.classList.remove("show-content");
+      element.classList.add("hide-content");
+    }
+  });
+});
+
+async function generateLists(boardId) {
     // Chama a função para obter as listas associadas ao board-id
     const boardLists = await Board.getBoardLists(boardId);
   
@@ -469,6 +453,7 @@ listBoards.addEventListener("click", async function (event) {
   
       divMain.appendChild(divListName);
       divMain.appendChild(divCardContainer);
+  
       listLists.appendChild(divMain);
   
       for (let card of list.cards) {
@@ -479,26 +464,38 @@ listBoards.addEventListener("click", async function (event) {
         console.log(card);
         divCardContainer.appendChild(divCard);
       }
+  
+      // Botão "Adicionar novo cartão" dentro da divCardContainer
+      const addCardButton = document.createElement("button");
+      addCardButton.classList.add("add-card-button");
+      addCardButton.textContent = "Adicionar um cartão";
+      addCardButton.addEventListener("click", () => {
+        // Adicione aqui a lógica para adicionar um novo cartão à lista
+        // Você pode chamar uma função ou exibir um formulário, por exemplo
+        localStorage.setItem("listId", list.id);
+        console.log("Botão Adicionar novo cartão clicado para a lista", list.id);
+      });
+      divCardContainer.appendChild(addCardButton);
     }
-  };
+  }
 
 formCreateList.addEventListener("submit", (event) => {
-    event.preventDefault();
-  
-    const listName = document.getElementById("new-list-title").value;
-    const selectedBoardId = localStorage.getItem("selectedBoardId");
-    const position = 0;
-    console.log(listName, selectedBoardId, position);
-    List.create(listName, selectedBoardId, position)
-      .then((list) => {
-        console.log(list);
-        alert("Lista nova criada com sucesso!");
-        formCreateList.reset();
-        generateLists(selectedBoardId);
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log(error.message);
-        alert("Erro ao criar lista. Por favor, tente novamente.");
-      });
-  });
+  event.preventDefault();
+
+  const listName = document.getElementById("new-list-title").value;
+  const selectedBoardId = localStorage.getItem("selectedBoardId");
+  const position = 0;
+  console.log(listName, selectedBoardId, position);
+  List.create(listName, selectedBoardId, position)
+    .then((list) => {
+      console.log(list);
+      alert("Lista nova criada com sucesso!");
+      formCreateList.reset();
+      generateLists(selectedBoardId);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log(error.message);
+      alert("Erro ao criar lista. Por favor, tente novamente.");
+    });
+});
