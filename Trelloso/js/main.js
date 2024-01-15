@@ -2,6 +2,7 @@ import User from "./users.js";
 import Token from "./token.js";
 import Board from "./boards.js";
 import List from "./lists.js";
+import Card from "./cards.js";
 
 const classesToToggle = document.querySelectorAll(
   ".show-content, .hide-content"
@@ -33,6 +34,9 @@ let listLists = document.getElementById("lists");
 let formCreateBoard = document.getElementById("form-board");
 let listsContent = document.getElementById("lists-content");
 let formCreateList = document.getElementById("form-list");
+let addDialog = document.getElementById("add-card-dialog");
+let closeDialog = document.getElementById("close-dialog");
+let formCreateCard = document.getElementById("form-add-card");
 
 function getTokenReload() {
   if (localStorage.getItem("token")) return localStorage.getItem("token");
@@ -431,53 +435,53 @@ listBoards.addEventListener("click", async function (event) {
 });
 
 async function generateLists(boardId) {
-    // Chama a função para obter as listas associadas ao board-id
-    const boardLists = await Board.getBoardLists(boardId);
-  
-    // Exibe as listas na <ul id="list-lists">
-    listLists.innerHTML = "";
-  
-    for (let list of boardLists) {
-      const divMain = document.createElement("div");
-      divMain.id = `list-${list.id}`; // Adiciona um ID à div da lista
-      divMain.classList.add("list-container");
-  
-      // Div para o list.name
-      const divListName = document.createElement("div");
-      divListName.classList.add("list-name");
-      divListName.textContent = list.name;
-  
-      // Div para os card-item
-      const divCardContainer = document.createElement("div");
-      divCardContainer.classList.add("card-container");
-  
-      divMain.appendChild(divListName);
-      divMain.appendChild(divCardContainer);
-  
-      listLists.appendChild(divMain);
-  
-      for (let card of list.cards) {
-        const divCard = document.createElement("div");
-        divCard.classList.add("card-item"); // Adiciona uma classe à div do card
-        divCard.textContent = card.name;
-        divCard.id = `card-${card.id}`;
-        console.log(card);
-        divCardContainer.appendChild(divCard);
-      }
-  
-      // Botão "Adicionar novo cartão" dentro da divCardContainer
-      const addCardButton = document.createElement("button");
-      addCardButton.classList.add("add-card-button");
-      addCardButton.textContent = "Adicionar um cartão";
-      addCardButton.addEventListener("click", () => {
-        // Adicione aqui a lógica para adicionar um novo cartão à lista
-        // Você pode chamar uma função ou exibir um formulário, por exemplo
-        localStorage.setItem("listId", list.id);
-        console.log("Botão Adicionar novo cartão clicado para a lista", list.id);
-      });
-      divCardContainer.appendChild(addCardButton);
+  // Chama a função para obter as listas associadas ao board-id
+  const boardLists = await Board.getBoardLists(boardId);
+
+  // Exibe as listas na <ul id="list-lists">
+  listLists.innerHTML = "";
+
+  for (let list of boardLists) {
+    const divMain = document.createElement("div");
+    divMain.id = `list-${list.id}`; // Adiciona um ID à div da lista
+    divMain.classList.add("list-container");
+
+    // Div para o list.name
+    const divListName = document.createElement("div");
+    divListName.classList.add("list-name");
+    divListName.textContent = list.name;
+
+    // Div para os card-item
+    const divCardContainer = document.createElement("div");
+    divCardContainer.classList.add("card-container");
+
+    divMain.appendChild(divListName);
+    divMain.appendChild(divCardContainer);
+
+    listLists.appendChild(divMain);
+
+    for (let card of list.cards) {
+      const divCard = document.createElement("div");
+      divCard.classList.add("card-item"); // Adiciona uma classe à div do card
+      divCard.textContent = card.name;
+      divCard.id = `card-${card.id}`;
+      console.log(card);
+      divCardContainer.appendChild(divCard);
     }
+
+    // Botão "Adicionar novo cartão" dentro da divCardContainer
+    const addCardButton = document.createElement("button");
+    addCardButton.classList.add("add-card-button");
+    addCardButton.textContent = "Adicionar um cartão";
+    addCardButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      localStorage.setItem("selectedListId", list.id);
+      console.log("Botão Adicionar novo cartão clicado para a lista", list.id);
+      addDialog.showModal();
+    });
+    divCardContainer.appendChild(addCardButton);
   }
+}
 
 formCreateList.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -499,3 +503,33 @@ formCreateList.addEventListener("submit", (event) => {
       alert("Erro ao criar lista. Por favor, tente novamente.");
     });
 });
+
+formCreateCard.addEventListener("submit", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const selectedBoardId = localStorage.getItem("selectedBoardId");
+  const cardTitle = document.getElementById("card-title").value;
+  const selectedListId = localStorage.getItem("selectedListId");
+  console.log(cardTitle, selectedListId);
+  Card.create(cardTitle, selectedListId)
+    .then((card) => {
+      console.log(card);
+      alert("Card novo criado com sucesso");
+      formCreateCard.reset();
+      addDialog.close();
+      generateLists(selectedBoardId);
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log(error.message);
+      alert("Erro ao criar novo card. Por favor, tente novamente");
+    });
+});
+
+closeDialog.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    addDialog.close();
+
+})

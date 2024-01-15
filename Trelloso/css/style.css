@@ -55,7 +55,6 @@ body {
   height: 100%;
 }
 
-
 #main-container div {
   background-color: #1d2125;
   border: 1px solid #31383d;
@@ -76,7 +75,6 @@ body {
 #content {
   grid-area: content;
   background-color: #1d2125;
-  
 }
 
 #forms {
@@ -107,7 +105,7 @@ h1#trelloso {
 } */
 
 ul#home-header {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 li {
@@ -158,23 +156,23 @@ div#boards-content div#boards ul#list-boards li {
 }
 
 div#boards-content div#boards ul#list-boards li div#board-title {
-    display: flex;
-    width: 100%;
-    border: none;
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    flex-wrap: wrap;
-    overflow: hidden;
+  display: flex;
+  width: 100%;
+  border: none;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  flex-wrap: wrap;
+  overflow: hidden;
 }
 
 div#boards-content div#boards ul#list-boards li div#fav-star {
-    border: none;
-    border-top-right-radius: 1rem;
-    border-bottom-right-radius: 1rem;
+  border: none;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 i {
-    margin-top: 3rem;
+  margin-top: 3rem;
 }
 
 #red {
@@ -203,68 +201,85 @@ i {
 }
 
 #main-container#lists-content {
-    border: none;
-  }
+  border: none;
+}
 
-  div#lists-content {
-    border: none;
-  }
-  
-  /* div#lists-content div#lists ul#list-lists {
+div#lists-content {
+  border: none;
+}
+
+/* div#lists-content div#lists ul#list-lists {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     border: none;
   } */
-  
-  div#lists-content div#lists {
-    display: flex;
-    border: none;
-    align-items: start;
-  }
-  
-  div#lists-content div#lists div {
-    display: flex;
-    flex-direction: column;
-    color: white;
-    background-color: #101204;
-    height: auto;
-    width: 30rem;
-    cursor: pointer;
-    margin-right: 10rem;
-    /* padding: 2rem; */
-    border-radius: 1rem;
-    align-items: center;
-  }
 
- #main-container div#content .list-name {
-    display: flex;
-    width: 25rem;
-    margin-right: 0;
-    border: none;
-    padding: 0;
-    align-items: flex-start;
-  }
+div#lists-content div#lists {
+  display: flex;
+  border: none;
+  align-items: start;
+}
 
-  #main-container div#content .card-container {
-    display: flex;
-    flex-direction: column;
-    border: none;
-    width: 22rem;
-    height: auto;
-    margin-right: 0;
-    padding-bottom: 0;
-  }
+div#lists-content div#lists div {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  background-color: #101204;
+  height: auto;
+  width: 30rem;
+  cursor: pointer;
+  margin-right: 10rem;
+  /* padding: 2rem; */
+  border-radius: 1rem;
+  align-items: center;
+}
 
-  #main-container div#content .card-container .card-item {
-    display: flex;
-    width: 22rem;
-    margin: 0;
-    margin-bottom: 2rem;
-    background-color: #22272B;
-  }
+#main-container div#content .list-name {
+  display: flex;
+  width: 25rem;
+  margin-right: 0;
+  border: none;
+  padding: 0;
+  align-items: flex-start;
+}
 
-  .add-card-button {
-    padding: 0.8rem;
-    border-radius: 8px;
-  }
+#main-container div#content .card-container {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  width: 22rem;
+  height: auto;
+  margin-right: 0;
+  padding-bottom: 0;
+}
+
+#main-container div#content .card-container .card-item {
+  display: flex;
+  width: 22rem;
+  margin: 0;
+  margin-bottom: 2rem;
+  background-color: #22272b;
+}
+
+.add-card-button {
+  padding: 0.8rem;
+  border-radius: 8px;
+}
+
+#add-card-dialog {
+  color: white;
+  top: 30%; /* Adicionado */
+  left: 50%; /* Adicionado */
+  display: flex;
+  flex-direction: column;
+  width: 35rem;
+  padding: 5rem;
+  background-color: #333;
+}
+
+#add-card-dialog #form-add-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
