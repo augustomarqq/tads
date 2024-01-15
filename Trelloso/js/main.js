@@ -37,6 +37,7 @@ let formCreateList = document.getElementById("form-list");
 let addDialog = document.getElementById("add-card-dialog");
 let closeDialog = document.getElementById("close-dialog");
 let formCreateCard = document.getElementById("form-add-card");
+let addCardButton = document.getElementById("add-card-button");
 
 function getTokenReload() {
   if (localStorage.getItem("token")) return localStorage.getItem("token");
@@ -473,13 +474,13 @@ async function generateLists(boardId) {
     const addCardButton = document.createElement("button");
     addCardButton.classList.add("add-card-button");
     addCardButton.textContent = "Adicionar um cartão";
-    addCardButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      localStorage.setItem("selectedListId", list.id);
-      console.log("Botão Adicionar novo cartão clicado para a lista", list.id);
-      addDialog.showModal();
-    });
     divCardContainer.appendChild(addCardButton);
+    addCardButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        localStorage.setItem("selectedListId", list.id);
+        console.log("Botão Adicionar novo cartão clicado para a lista", list.id);
+        addDialog.showModal();
+      });
   }
 }
 
@@ -517,8 +518,8 @@ formCreateCard.addEventListener("submit", (event) => {
       console.log(card);
       alert("Card novo criado com sucesso");
       formCreateCard.reset();
-      addDialog.close();
       generateLists(selectedBoardId);
+      addDialog.close();
     })
     .catch((error) => {
       console.log(error);
