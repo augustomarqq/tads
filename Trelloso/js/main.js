@@ -421,38 +421,56 @@ formCreateBoard.addEventListener("submit", (event) => {
 });
 
 listBoards.addEventListener("click", async function (event) {
-  event.preventDefault();
+    event.preventDefault();
+  
+    // Verifica se o elemento clicado é um <li> com atributo board-id
+    const liElement = event.target.closest("li");
+    const boardId = liElement.getAttribute("board-id");
+    localStorage.setItem("selectedBoardId", boardId);
+    console.log("Board selecionado:", boardId);
+    if (boardId) {
+      generateLists(boardId);
+    }
+    classesToToggle.forEach((element) => {
+      if (
+        element === listsContent ||
+        element === sidebar ||
+        element === headerMenu
+      ) {
+        element.classList.remove("hide-content");
+        element.classList.add("show-content");
+      } else {
+        element.classList.remove("show-content");
+        element.classList.add("hide-content");
+      }
+    });
+  });
 
-  // Verifica se o elemento clicado é um <li> com atributo board-id
-  const liElement = event.target.closest("li");
-  const boardId = liElement.getAttribute("board-id");
-  localStorage.setItem("selectedBoardId", boardId);
-  console.log("Board selecionado:", boardId);
-  if (boardId) {
+    async function generateLists(boardId){
     // Chama a função para obter as listas associadas ao board-id
     const boardLists = await Board.getBoardLists(boardId);
-
+  
     // Exibe as listas na <ul id="list-lists">
     listLists.innerHTML = "";
-
+  
     for (let list of boardLists) {
       const divMain = document.createElement("div");
       divMain.id = `list-${list.id}`; // Adiciona um ID à div da lista
       divMain.classList.add("list-container");
-
+  
       // Div para o list.name
       const divListName = document.createElement("div");
       divListName.classList.add("list-name");
       divListName.textContent = list.name;
-
+  
       // Div para os card-item
       const divCardContainer = document.createElement("div");
       divCardContainer.classList.add("card-container");
-
+  
       divMain.appendChild(divListName);
       divMain.appendChild(divCardContainer);
       listLists.appendChild(divMain);
-
+  
       for (let card of list.cards) {
         const divCard = document.createElement("div");
         divCard.classList.add("card-item"); // Adiciona uma classe à div do card
@@ -462,39 +480,25 @@ listBoards.addEventListener("click", async function (event) {
         divCardContainer.appendChild(divCard);
       }
     }
-  }
-  classesToToggle.forEach((element) => {
-    if (
-      element === listsContent ||
-      element === sidebar ||
-      element === headerMenu
-    ) {
-      element.classList.remove("hide-content");
-      element.classList.add("show-content");
-    } else {
-      element.classList.remove("show-content");
-      element.classList.add("hide-content");
-    }
-  });
-});
+  };
 
 formCreateList.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  const listName = document.getElementById("new-list-title").value;
-  const selectedBoardId = localStorage.getItem("selectedBoardId");
-  const position = 0;
-  console.log(listName, selectedBoardId, position);
-  List.create(listName, selectedBoardId, position)
-    .then((list) => {
-      console.log(list);
-      alert("Lista nova criada com sucesso!");
-      formCreateList.reset();
-      localStorage.removeItem("selectedBoardId");
-    })
-    .catch((error) => {
-      console.log(error);
-      console.log(error.message);
-      alert("Erro ao criar lista. Por favor, tente novamente.");
-    });
-});
+    event.preventDefault();
+  
+    const listName = document.getElementById("new-list-title").value;
+    const selectedBoardId = localStorage.getItem("selectedBoardId");
+    const position = 0;
+    console.log(listName, selectedBoardId, position);
+    List.create(listName, selectedBoardId, position)
+      .then((list) => {
+        console.log(list);
+        alert("Lista nova criada com sucesso!");
+        formCreateList.reset();
+        generateLists(selectedBoardId);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(error.message);
+        alert("Erro ao criar lista. Por favor, tente novamente.");
+      });
+  });
