@@ -16,6 +16,7 @@ let menuProfile = document.getElementById("menu-profile");
 let listUsers = document.getElementById("list-users");
 let btnListUsers = document.getElementById("btn-users");
 let spanMeContent = document.getElementById("me-content");
+let content = document.getElementById("content");
 let spanMe = document.getElementById("me");
 let sidebar = document.getElementById("sidebar");
 let headerMenu = document.getElementById("home-header");
@@ -30,6 +31,7 @@ let boardsContent = document.getElementById("boards-content");
 let homeHome = document.getElementById("home-home");
 let boards = document.getElementById("menu-boards");
 let listBoards = document.getElementById("list-boards");
+let listsMenu = document.getElementById("lists-menu");
 let listLists = document.getElementById("lists");
 let formCreateBoard = document.getElementById("form-board");
 let listsContent = document.getElementById("lists-content");
@@ -165,6 +167,7 @@ menuUsers.addEventListener("click", (event) => {
       element.classList.add("hide-content");
     }
   });
+  resetColors();
 });
 
 btnListUsers.addEventListener("click", (event) => {
@@ -256,6 +259,7 @@ homeSair.addEventListener("click", (event) => {
       element.classList.add("hide-content");
     }
   });
+  resetColors();
 });
 
 menuProfile.addEventListener("click", (event) => {
@@ -288,6 +292,7 @@ menuProfile.addEventListener("click", (event) => {
       element.classList.add("hide-content");
     }
   });
+  resetColors();
 });
 
 boards.addEventListener("click", (event) => {
@@ -330,6 +335,7 @@ boards.addEventListener("click", (event) => {
       element.classList.add("hide-content");
     }
   });
+  resetColors();
 });
 
 homeHome.addEventListener("click", (event) => {
@@ -372,6 +378,7 @@ homeHome.addEventListener("click", (event) => {
       element.classList.add("hide-content");
     }
   });
+  resetColors();
 });
 
 formCreateBoard.addEventListener("submit", (event) => {
@@ -417,6 +424,12 @@ listBoards.addEventListener("click", async function (event) {
   const boardId = liElement.getAttribute("board-id");
   localStorage.setItem("selectedBoardId", boardId);
   console.log("Board selecionado:", boardId);
+  const selectedBoardColor = liElement.querySelector("#board-title").style.backgroundColor;
+  listLists.style.backgroundColor = selectedBoardColor;
+  listsContent.style.backgroundColor = selectedBoardColor;
+  listsMenu.style.backgroundColor = selectedBoardColor;
+  content.style.backgroundColor = selectedBoardColor;
+
   if (boardId) {
     generateLists(boardId);
   }
@@ -534,3 +547,12 @@ closeDialog.addEventListener("click", (event) => {
     addDialog.close();
 
 })
+
+function resetColors() {
+    // Adicione aqui os elementos que precisam ter as cores redefinidas
+    listLists.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+    listsContent.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+    listsMenu.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+    content.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+  }
+

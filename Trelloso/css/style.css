@@ -211,6 +211,10 @@ div#lists-content {
   border: none;
 }
 
+div#lists-menu {
+    color: white;
+    border: none;
+}
 /* div#lists-content div#lists ul#list-lists {
     display: flex;
     flex-wrap: wrap;
@@ -232,7 +236,7 @@ div#lists-content div#lists div {
   height: auto;
   width: 30rem;
   cursor: pointer;
-  margin-right: 10rem;
+  margin-right: 3rem;
   /* padding: 2rem; */
   border-radius: 1rem;
   align-items: center;
