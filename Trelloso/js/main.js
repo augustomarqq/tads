@@ -41,7 +41,6 @@ let addDialog = document.getElementById("add-card-dialog");
 let closeDialog = document.getElementById("close-dialog");
 let formCreateCard = document.getElementById("form-add-card");
 let menuFavs = document.getElementById("menu-favs");
-let favsContent = document.getElementById("favs-content");
 
 function getTokenReload() {
   if (localStorage.getItem("token")) return localStorage.getItem("token");
@@ -391,27 +390,58 @@ boards.addEventListener("click", (event) => {
   resetColors();
 });
 
-menuFavs.addEventListener("click", (event) => {
-  event.preventDefault();
-
-  forms.classList.remove("show-content-grid");
-  forms.classList.add("hide-content");
-
-  classesToToggle.forEach((element) => {
-    if (
-      element === favsContent ||
-      element === sidebar ||
-      element === headerMenu
-    ) {
-      element.classList.remove("hide-content");
-      element.classList.add("show-content");
-    } else {
-      element.classList.remove("show-content");
-      element.classList.add("hide-content");
+menuFavs.addEventListener("click", async (event) => {
+    event.preventDefault();
+  
+    forms.classList.remove("show-content-grid");
+    forms.classList.add("hide-content");
+  
+    classesToToggle.forEach((element) => {
+      if (
+        element === boardsContent ||
+        element === sidebar ||
+        element === headerMenu
+      ) {
+        element.classList.remove("hide-content");
+        element.classList.add("show-content");
+      } else {
+        element.classList.remove("show-content");
+        element.classList.add("hide-content");
+      }
+    });
+    resetColors();
+  
+    listBoards.innerHTML = "";
+    const allBoards = await Board.myBoards();
+  
+    // Filtra apenas os boards com favorito=true
+    const favoriteBoards = allBoards.filter((board) => board.favorito === true);
+  
+    for (let board of favoriteBoards) {
+      const li = document.createElement("li");
+      li.setAttribute("board-id", board.id);
+      const nameDiv = document.createElement("div");
+      nameDiv.id = "board-title";
+      nameDiv.innerHTML = board.name;
+      nameDiv.style.backgroundColor = board.color;
+      const starDiv = document.createElement("div");
+      starDiv.id = "fav-star";
+      starDiv.style.backgroundColor = board.color;
+      const trashIcon = document.createElement("i");
+      trashIcon.id = "trash-icon";
+      trashIcon.className = "fa-solid fa-trash";
+      trashIcon.setAttribute("trash-id", board.id);
+      starDiv.appendChild(trashIcon);
+      const starIcon = document.createElement("i");
+      starIcon.id = "star-icon";
+      starIcon.className = "fa-solid fa-star"; // Ajuste para garantir que seja sempre favorito
+      starIcon.setAttribute("star-id", board.id);
+      starDiv.appendChild(starIcon);
+      li.appendChild(nameDiv);
+      li.appendChild(starDiv);
+      listBoards.appendChild(li);
     }
   });
-  resetColors();
-});
 
 homeHome.addEventListener("click", (event) => {
   event.preventDefault();
