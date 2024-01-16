@@ -55,8 +55,8 @@ async function verificarToken() {
 
     const storedAvatarUrl = localStorage.getItem("userAvatar");
     if (storedAvatarUrl) {
-        userAvatar.src = storedAvatarUrl;
-        userAvatar.alt = "Avatar do usuário";
+      userAvatar.src = storedAvatarUrl;
+      userAvatar.alt = "Avatar do usuário";
     }
 
     listBoards.innerHTML = "";
@@ -169,7 +169,6 @@ formLogin.addEventListener("submit", (event) => {
         userAvatar.src = me.avatar_url;
         userAvatar.alt = "Avatar do usuário";
         localStorage.setItem("userAvatar", me.avatar_url);
-
       })
       .catch((error) => {
         console.error(error.message);
@@ -470,36 +469,48 @@ formCreateBoard.addEventListener("submit", (event) => {
 });
 
 listBoards.addEventListener("click", async function (event) {
-  event.preventDefault();
-  event.stopPropagation();
+    event.preventDefault();
+  
+    const liElement = event.target.closest("li");
+    const boardId = liElement.getAttribute("board-id");
+    const trashIcon = event.target.closest("i.fa-trash");
+    
+    if (trashIcon) {
 
-  const liElement = event.target.closest("li");
-  const boardId = liElement.getAttribute("board-id");
-  localStorage.setItem("selectedBoardId", boardId);
-  console.log("Board selecionado:", boardId);
-  const selectedBoardColor =
-    liElement.querySelector("#board-title").style.backgroundColor;
-  listLists.style.backgroundColor = selectedBoardColor;
-  listsContent.style.backgroundColor = selectedBoardColor;
-  listsMenu.style.backgroundColor = selectedBoardColor;
-  content.style.backgroundColor = selectedBoardColor;
-
-  if (boardId) {
-    generateLists(boardId);
-  }
-  classesToToggle.forEach((element) => {
-    if (
-      element === listsContent ||
-      element === sidebar ||
-      element === headerMenu
-    ) {
-      element.classList.remove("hide-content");
-      element.classList.add("show-content");
+      const isConfirmed = confirm(`Você quer realmente excluir o board ${boardId}?`);
+      
+      if (isConfirmed) {
+        console.log("Board a ser deletado:", boardId);
+        Board.deleteBoard(boardId);
+        liElement.remove();
+      }
     } else {
-      element.classList.remove("show-content");
-      element.classList.add("hide-content");
+      localStorage.setItem("selectedBoardId", boardId);
+      console.log("Board selecionado:", boardId);
+      const selectedBoardColor =
+        liElement.querySelector("#board-title").style.backgroundColor;
+      listLists.style.backgroundColor = selectedBoardColor;
+      listsContent.style.backgroundColor = selectedBoardColor;
+      listsMenu.style.backgroundColor = selectedBoardColor;
+      content.style.backgroundColor = selectedBoardColor;
+  
+      if (boardId) {
+        generateLists(boardId);
+      }
+      classesToToggle.forEach((element) => {
+        if (
+          element === listsContent ||
+          element === sidebar ||
+          element === headerMenu
+        ) {
+          element.classList.remove("hide-content");
+          element.classList.add("show-content");
+        } else {
+          element.classList.remove("show-content");
+          element.classList.add("hide-content");
+        }
+      });
     }
-  });
 });
 
 async function generateLists(boardId) {
@@ -601,17 +612,16 @@ closeDialog.addEventListener("click", (event) => {
 function resetColors() {
   listLists.style.backgroundColor = "";
   listsContent.style.backgroundColor = "";
-  listsMenu.style.backgroundColor = ""; 
+  listsMenu.style.backgroundColor = "";
   content.style.backgroundColor = "";
 }
 
-let lixeira = document.getElementById("trash-icon");
-
-console.log(lixeira);
-lixeira.addEventListener("click", (event) => {
-  event.preventDefault();
-  const boardId = trashIcon.getAttribute("trash-id");
-  console.log("Card a ser deletado:", boardId);
-  Board.deleteBoard(boardId);
-  event.stopPropagation();
-});
+// listBoards.addEventListener("click", (event) => {
+//   event.preventDefault();
+//   const iElement = event.target.closest("i");
+//   const trashId = iElement.getAttribute("trash-id");
+//   localStorage.setItem("selectedBoardId", trashId);
+//   console.log("Card a ser deletado:", trashId);
+//   Board.deleteBoard(trashId);
+//   event.stopPropagation();
+// });
