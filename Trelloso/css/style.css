@@ -67,6 +67,8 @@ body {
   grid-area: header;
   background-color: #1d2125;
   display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
 }
 
 #sidebar {
@@ -78,6 +80,7 @@ body {
 #content {
   grid-area: content;
   background-color: #1d2125;
+  overflow: auto;
 }
 
 #forms {
@@ -109,7 +112,15 @@ h1#trelloso {
 
 ul#home-header {
   font-weight: 600;
+  margin-left: auto;
 }
+
+#user-avatar {
+    width: 48px;
+    height: 48px;
+    margin-left: 10px;
+    border-radius: 8rem; /* Ajuste a margem conforme necessário */
+  }
 
 li {
   margin: 1.2rem;
@@ -170,37 +181,57 @@ div#boards-content div#boards ul#list-boards li div#board-title {
 
 div#boards-content div#boards ul#list-boards li div#fav-star {
   border: none;
+  display: flex;
+  flex-direction: column;
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
+  justify-content: space-between;
+  position: relative;
 }
 
-i {
-  margin-top: 3rem;
-}
+/* #fav-star i {
+    position: absolute;
+    top: 0;
+    right: 0;
+} */
+
+#fav-star .fa-star {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1rem;
+  }
+  
+  #fav-star .fa-trash {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+  }
 
 #red {
-  background-color: #d42020;
-  color: #d42020;
+  background-color: #b04632;
+  color: #b04632;
 }
 
 #green {
-  background-color: #209b20;
-  color: #209b20;
+  background-color: #519839;
+  color: #519839;
 }
 
 #blue {
-  background-color: #2525e9;
-  color: #2525e9;
+  background-color: #0079bf;
+  color: #0079bf;
 }
 
-#yellow {
-  background-color: #e4d612;
-  color: #e4d612;
+#orange {
+  background-color: #d29034;
+  color: #d29034;
 }
 
 #pink {
-  background-color: #c75a7e;
-  color: #c75a7e;
+  background-color: #cd5a91;
+  color: #cd5a91;
 }
 
 #main-container#lists-content {
@@ -214,6 +245,7 @@ div#lists-content {
 div#lists-menu {
     color: white;
     border: none;
+    width: 45rem;
 }
 /* div#lists-content div#lists ul#list-lists {
     display: flex;

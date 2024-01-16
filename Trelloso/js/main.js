@@ -10,6 +10,7 @@ const classesToToggle = document.querySelectorAll(
 let forms = document.getElementById("forms");
 let login = document.getElementById("login");
 let formLogin = document.getElementById("form-login");
+let userAvatar = document.getElementById("user-avatar");
 let formCreateUser = document.getElementById("form-create-user");
 let createUser = document.getElementById("create-user");
 let menuProfile = document.getElementById("menu-profile");
@@ -40,6 +41,7 @@ let addDialog = document.getElementById("add-card-dialog");
 let closeDialog = document.getElementById("close-dialog");
 let formCreateCard = document.getElementById("form-add-card");
 let addCardButton = document.getElementById("add-card-button");
+let trashIcon = document.getElementById("trash-icon");
 
 function getTokenReload() {
   if (localStorage.getItem("token")) return localStorage.getItem("token");
@@ -53,6 +55,12 @@ async function verificarToken() {
     forms.classList.remove("show-content-grid");
     forms.classList.add("hide-content");
 
+    const storedAvatarUrl = localStorage.getItem("userAvatar");
+    if (storedAvatarUrl) {
+        userAvatar.src = storedAvatarUrl;
+        userAvatar.alt = "Avatar do usuário";
+    }
+
     listBoards.innerHTML = "";
     Board.myBoards().then((boards) => {
       for (let board of boards) {
@@ -65,6 +73,11 @@ async function verificarToken() {
         const starDiv = document.createElement("div");
         starDiv.id = "fav-star";
         starDiv.style.backgroundColor = board.color;
+        const trashIcon = document.createElement("i");
+        trashIcon.id = "trash-icon";
+        trashIcon.className = "fa-solid fa-trash";
+        trashIcon.setAttribute("trash-id", board.id);
+        starDiv.appendChild(trashIcon);
         const starIcon = document.createElement("i");
         starIcon.className = "fa-regular fa-star";
         starDiv.appendChild(starIcon);
@@ -104,6 +117,8 @@ formLogin.addEventListener("submit", (event) => {
     mainContainer.classList.add("logged-in");
     forms.classList.remove("show-content-grid");
     forms.classList.add("hide-content");
+    userAvatar.classList.remove("hide-content");
+    userAvatar.classList.add("show-content");
 
     classesToToggle.forEach((element) => {
       if (
@@ -132,6 +147,11 @@ formLogin.addEventListener("submit", (event) => {
         const starDiv = document.createElement("div");
         starDiv.id = "fav-star";
         starDiv.style.backgroundColor = board.color;
+        const trashIcon = document.createElement("i");
+        trashIcon.id = "trash-icon";
+        trashIcon.className = "fa-solid fa-trash";
+        trashIcon.setAttribute("trash-id", board.id);
+        starDiv.appendChild(trashIcon);
         const starIcon = document.createElement("i");
         starIcon.className = "fa-regular fa-star";
         starDiv.appendChild(starIcon);
@@ -145,6 +165,11 @@ formLogin.addEventListener("submit", (event) => {
       .then((me) => {
         const nameString = `Área de trabalho de ${me.name}`;
         homeIntro.innerHTML = nameString;
+
+        userAvatar.src = me.avatar_url;
+        userAvatar.alt = "Avatar do usuário";
+        localStorage.setItem("userAvatar", me.avatar_url);
+
       })
       .catch((error) => {
         console.error(error.message);
@@ -240,15 +265,20 @@ refLogin.addEventListener("click", (event) => {
 homeSair.addEventListener("click", (event) => {
   event.preventDefault();
   Token.rmvToken();
+  localStorage.removeItem("userAvatar");
+  localStorage.removeItem("selectedBoardId");
+  localStorage.removeItem("selectedListId");
 
   spanMe.innerHTML = "";
   homeIntro.innerHTML = "";
   listBoards.innerHTML = "";
+  formLogin.innerHTML = "";
 
   mainContainer.classList.remove("logged-in");
   mainContainer.classList.add("logged-off");
   forms.classList.remove("hide-content");
   forms.classList.add("show-content-grid");
+  userAvatar.classList.add("hide-content");
 
   classesToToggle.forEach((element) => {
     if (element === forms || element === login) {
@@ -271,8 +301,16 @@ menuProfile.addEventListener("click", (event) => {
   spanMe.innerHTML = "";
   User.me()
     .then((me) => {
-      const userString = `Name: ${me.name}<br>Username: ${me.username}<br> Avatar: ${me.avatar_url}`;
+      const userString = `Name: ${me.name}<br>Username: ${me.username}<br> Avatar:`;
       spanMe.innerHTML = userString;
+
+      const avatarImg = document.createElement("img");
+      avatarImg.src = me.avatar_url;
+      avatarImg.alt = "Avatar do usuário";
+      avatarImg.width = 64;
+      avatarImg.height = 64;
+
+      spanMe.appendChild(avatarImg);
     })
     .catch((error) => {
       console.error(error.message);
@@ -310,6 +348,11 @@ boards.addEventListener("click", (event) => {
       const starDiv = document.createElement("div");
       starDiv.id = "fav-star";
       starDiv.style.backgroundColor = board.color;
+      const trashIcon = document.createElement("i");
+      trashIcon.id = "trash-icon";
+      trashIcon.className = "fa-solid fa-trash";
+      trashIcon.setAttribute("trash-id", board.id);
+      starDiv.appendChild(trashIcon);
       const starIcon = document.createElement("i");
       starIcon.className = "fa-regular fa-star";
       starDiv.appendChild(starIcon);
@@ -353,6 +396,11 @@ homeHome.addEventListener("click", (event) => {
       const starDiv = document.createElement("div");
       starDiv.id = "fav-star";
       starDiv.style.backgroundColor = board.color;
+      const trashIcon = document.createElement("i");
+      trashIcon.id = "trash-icon";
+      trashIcon.className = "fa-solid fa-trash";
+      trashIcon.setAttribute("trash-id", board.id);
+      starDiv.appendChild(trashIcon);
       const starIcon = document.createElement("i");
       starIcon.className = "fa-regular fa-star";
       starDiv.appendChild(starIcon);
@@ -403,6 +451,11 @@ formCreateBoard.addEventListener("submit", (event) => {
       const starDiv = document.createElement("div");
       starDiv.id = "fav-star";
       starDiv.style.backgroundColor = board.color;
+      const trashIcon = document.createElement("i");
+      trashIcon.id = "trash-icon";
+      trashIcon.className = "fa-solid fa-trash";
+      trashIcon.setAttribute("trash-id", board.id);
+      starDiv.appendChild(trashIcon);
       const starIcon = document.createElement("i");
       starIcon.className = "fa-regular fa-star";
       starDiv.appendChild(starIcon);
@@ -418,13 +471,14 @@ formCreateBoard.addEventListener("submit", (event) => {
 
 listBoards.addEventListener("click", async function (event) {
   event.preventDefault();
+  event.stopPropagation();
 
-  // Verifica se o elemento clicado é um <li> com atributo board-id
   const liElement = event.target.closest("li");
   const boardId = liElement.getAttribute("board-id");
   localStorage.setItem("selectedBoardId", boardId);
   console.log("Board selecionado:", boardId);
-  const selectedBoardColor = liElement.querySelector("#board-title").style.backgroundColor;
+  const selectedBoardColor =
+    liElement.querySelector("#board-title").style.backgroundColor;
   listLists.style.backgroundColor = selectedBoardColor;
   listsContent.style.backgroundColor = selectedBoardColor;
   listsMenu.style.backgroundColor = selectedBoardColor;
@@ -489,11 +543,11 @@ async function generateLists(boardId) {
     addCardButton.textContent = "Adicionar um cartão";
     divCardContainer.appendChild(addCardButton);
     addCardButton.addEventListener("click", (event) => {
-        event.preventDefault();
-        localStorage.setItem("selectedListId", list.id);
-        console.log("Botão Adicionar novo cartão clicado para a lista", list.id);
-        addDialog.showModal();
-      });
+      event.preventDefault();
+      localStorage.setItem("selectedListId", list.id);
+      console.log("Botão Adicionar novo cartão clicado para a lista", list.id);
+      addDialog.showModal();
+    });
   }
 }
 
@@ -542,17 +596,24 @@ formCreateCard.addEventListener("submit", (event) => {
 });
 
 closeDialog.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    addDialog.close();
-
-})
+  event.preventDefault();
+  event.stopPropagation();
+  addDialog.close();
+});
 
 function resetColors() {
-    // Adicione aqui os elementos que precisam ter as cores redefinidas
-    listLists.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
-    listsContent.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
-    listsMenu.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
-    content.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
-  }
+  // Adicione aqui os elementos que precisam ter as cores redefinidas
+  listLists.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+  listsContent.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+  listsMenu.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+  content.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+}
 
+console.log(trashIcon);
+trashIcon.addEventListener("click", (event) => {
+  event.preventDefault();
+  const boardId = trashIcon.getAttribute("trash-id");
+  console.log("Card a ser deletado:", boardId);
+//   Board.deleteBoard(boardId);
+  event.stopPropagation();
+});

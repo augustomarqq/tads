@@ -22,4 +22,16 @@ async function getBoardLists(board_id) {
     return boardLists;
 }
 
-export default {myBoards, create, getBoardLists};
+async function deleteBoard(board_id) {
+    const deleteBoard = await Fetch.request(`/boards/${board_id}`, null, 'DELETE')
+
+    if (deleteBoard.status === 204) {
+        console.log(`Board ${board_id} deletado com sucesso.`);
+        return true; // Indica que a exclusão foi bem-sucedida
+    } else {
+        console.error(`Erro ao deletar o board ${board_id}.`);
+        return false; // Indica que houve um erro na exclusão
+    }
+}
+
+export default {myBoards, create, getBoardLists, deleteBoard};
