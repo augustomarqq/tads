@@ -40,8 +40,6 @@ let formCreateList = document.getElementById("form-list");
 let addDialog = document.getElementById("add-card-dialog");
 let closeDialog = document.getElementById("close-dialog");
 let formCreateCard = document.getElementById("form-add-card");
-let addCardButton = document.getElementById("add-card-button");
-let trashIcon = document.getElementById("trash-icon");
 
 function getTokenReload() {
   if (localStorage.getItem("token")) return localStorage.getItem("token");
@@ -101,6 +99,8 @@ async function verificarToken() {
         element.classList.add("hide-content");
       }
     });
+  } else {
+    userAvatar.classList.add("hide-content");
   }
 }
 
@@ -272,12 +272,12 @@ homeSair.addEventListener("click", (event) => {
   spanMe.innerHTML = "";
   homeIntro.innerHTML = "";
   listBoards.innerHTML = "";
-  formLogin.innerHTML = "";
 
   mainContainer.classList.remove("logged-in");
   mainContainer.classList.add("logged-off");
   forms.classList.remove("hide-content");
   forms.classList.add("show-content-grid");
+  userAvatar.classList.remove("show-content");
   userAvatar.classList.add("hide-content");
 
   classesToToggle.forEach((element) => {
@@ -503,15 +503,13 @@ listBoards.addEventListener("click", async function (event) {
 });
 
 async function generateLists(boardId) {
-  // Chama a função para obter as listas associadas ao board-id
   const boardLists = await Board.getBoardLists(boardId);
 
-  // Exibe as listas na <ul id="list-lists">
   listLists.innerHTML = "";
 
   for (let list of boardLists) {
     const divMain = document.createElement("div");
-    divMain.id = `list-${list.id}`; // Adiciona um ID à div da lista
+    divMain.id = `list-${list.id}`;
     divMain.classList.add("list-container");
 
     // Div para o list.name
@@ -530,14 +528,13 @@ async function generateLists(boardId) {
 
     for (let card of list.cards) {
       const divCard = document.createElement("div");
-      divCard.classList.add("card-item"); // Adiciona uma classe à div do card
+      divCard.classList.add("card-item");
       divCard.textContent = card.name;
       divCard.id = `card-${card.id}`;
       console.log(card);
       divCardContainer.appendChild(divCard);
     }
 
-    // Botão "Adicionar novo cartão" dentro da divCardContainer
     const addCardButton = document.createElement("button");
     addCardButton.classList.add("add-card-button");
     addCardButton.textContent = "Adicionar um cartão";
@@ -602,18 +599,19 @@ closeDialog.addEventListener("click", (event) => {
 });
 
 function resetColors() {
-  // Adicione aqui os elementos que precisam ter as cores redefinidas
-  listLists.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
-  listsContent.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
-  listsMenu.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
-  content.style.backgroundColor = ""; // Redefine a cor para a original ou para a desejada
+  listLists.style.backgroundColor = "";
+  listsContent.style.backgroundColor = "";
+  listsMenu.style.backgroundColor = ""; 
+  content.style.backgroundColor = "";
 }
 
-console.log(trashIcon);
-trashIcon.addEventListener("click", (event) => {
+let lixeira = document.getElementById("trash-icon");
+
+console.log(lixeira);
+lixeira.addEventListener("click", (event) => {
   event.preventDefault();
   const boardId = trashIcon.getAttribute("trash-id");
   console.log("Card a ser deletado:", boardId);
-//   Board.deleteBoard(boardId);
+  Board.deleteBoard(boardId);
   event.stopPropagation();
 });
