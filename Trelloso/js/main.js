@@ -40,6 +40,8 @@ let formCreateList = document.getElementById("form-list");
 let addDialog = document.getElementById("add-card-dialog");
 let closeDialog = document.getElementById("close-dialog");
 let formCreateCard = document.getElementById("form-add-card");
+let menuFavs = document.getElementById("menu-favs");
+let favsContent = document.getElementById("favs-content");
 
 function getTokenReload() {
   if (localStorage.getItem("token")) return localStorage.getItem("token");
@@ -77,7 +79,10 @@ async function verificarToken() {
         trashIcon.setAttribute("trash-id", board.id);
         starDiv.appendChild(trashIcon);
         const starIcon = document.createElement("i");
-        starIcon.className = "fa-regular fa-star";
+        starIcon.id = "star-icon";
+        const isFavorite = board.favorito === true || board.favorito === "true";
+        starIcon.className = `fa-${isFavorite ? "solid" : "regular"} fa-star`;
+        starIcon.setAttribute("star-id", board.id);
         starDiv.appendChild(starIcon);
         li.appendChild(nameDiv);
         li.appendChild(starDiv);
@@ -153,7 +158,10 @@ formLogin.addEventListener("submit", (event) => {
         trashIcon.setAttribute("trash-id", board.id);
         starDiv.appendChild(trashIcon);
         const starIcon = document.createElement("i");
-        starIcon.className = "fa-regular fa-star";
+        starIcon.id = "star-icon";
+        const isFavorite = board.favorito === true || board.favorito === "true";
+        starIcon.className = `fa-${isFavorite ? "solid" : "regular"} fa-star`;
+        starIcon.setAttribute("star-id", board.id);
         starDiv.appendChild(starIcon);
         li.appendChild(nameDiv);
         li.appendChild(starDiv);
@@ -353,7 +361,10 @@ boards.addEventListener("click", (event) => {
       trashIcon.setAttribute("trash-id", board.id);
       starDiv.appendChild(trashIcon);
       const starIcon = document.createElement("i");
-      starIcon.className = "fa-regular fa-star";
+      starIcon.id = "star-icon";
+      const isFavorite = board.favorito === true || board.favorito === "true";
+      starIcon.className = `fa-${isFavorite ? "solid" : "regular"} fa-star`;
+      starIcon.setAttribute("star-id", board.id);
       starDiv.appendChild(starIcon);
       li.appendChild(nameDiv);
       li.appendChild(starDiv);
@@ -367,6 +378,28 @@ boards.addEventListener("click", (event) => {
   classesToToggle.forEach((element) => {
     if (
       element === boardsContent ||
+      element === sidebar ||
+      element === headerMenu
+    ) {
+      element.classList.remove("hide-content");
+      element.classList.add("show-content");
+    } else {
+      element.classList.remove("show-content");
+      element.classList.add("hide-content");
+    }
+  });
+  resetColors();
+});
+
+menuFavs.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  forms.classList.remove("show-content-grid");
+  forms.classList.add("hide-content");
+
+  classesToToggle.forEach((element) => {
+    if (
+      element === favsContent ||
       element === sidebar ||
       element === headerMenu
     ) {
@@ -401,7 +434,10 @@ homeHome.addEventListener("click", (event) => {
       trashIcon.setAttribute("trash-id", board.id);
       starDiv.appendChild(trashIcon);
       const starIcon = document.createElement("i");
-      starIcon.className = "fa-regular fa-star";
+      starIcon.id = "star-icon";
+      const isFavorite = board.favorito === true || board.favorito === "true";
+      starIcon.className = `fa-${isFavorite ? "solid" : "regular"} fa-star`;
+      starIcon.setAttribute("star-id", board.id);
       starDiv.appendChild(starIcon);
       li.appendChild(nameDiv);
       li.appendChild(starDiv);
@@ -456,7 +492,10 @@ formCreateBoard.addEventListener("submit", (event) => {
       trashIcon.setAttribute("trash-id", board.id);
       starDiv.appendChild(trashIcon);
       const starIcon = document.createElement("i");
-      starIcon.className = "fa-regular fa-star";
+      starIcon.id = "star-icon";
+      const isFavorite = board.favorito === true || board.favorito === "true";
+      starIcon.className = `fa-${isFavorite ? "solid" : "regular"} fa-star`;
+      starIcon.setAttribute("star-id", board.id);
       starDiv.appendChild(starIcon);
       li.appendChild(nameDiv);
       li.appendChild(starDiv);
@@ -469,48 +508,60 @@ formCreateBoard.addEventListener("submit", (event) => {
 });
 
 listBoards.addEventListener("click", async function (event) {
-    event.preventDefault();
-  
-    const liElement = event.target.closest("li");
-    const boardId = liElement.getAttribute("board-id");
-    const trashIcon = event.target.closest("i.fa-trash");
-    
-    if (trashIcon) {
+  event.preventDefault();
 
-      const isConfirmed = confirm(`Você quer realmente excluir o board ${boardId}?`);
-      
-      if (isConfirmed) {
-        console.log("Board a ser deletado:", boardId);
-        Board.deleteBoard(boardId);
-        liElement.remove();
-      }
-    } else {
-      localStorage.setItem("selectedBoardId", boardId);
-      console.log("Board selecionado:", boardId);
-      const selectedBoardColor =
-        liElement.querySelector("#board-title").style.backgroundColor;
-      listLists.style.backgroundColor = selectedBoardColor;
-      listsContent.style.backgroundColor = selectedBoardColor;
-      listsMenu.style.backgroundColor = selectedBoardColor;
-      content.style.backgroundColor = selectedBoardColor;
-  
-      if (boardId) {
-        generateLists(boardId);
-      }
-      classesToToggle.forEach((element) => {
-        if (
-          element === listsContent ||
-          element === sidebar ||
-          element === headerMenu
-        ) {
-          element.classList.remove("hide-content");
-          element.classList.add("show-content");
-        } else {
-          element.classList.remove("show-content");
-          element.classList.add("hide-content");
-        }
-      });
+  const liElement = event.target.closest("li");
+  const boardId = liElement.getAttribute("board-id");
+  const trashIcon = event.target.closest("i.fa-trash");
+  const starIcon = event.target.closest("i.fa-star");
+
+  if (trashIcon) {
+    const isConfirmed = confirm(
+      `Você quer realmente excluir o board ${boardId}?`
+    );
+
+    if (isConfirmed) {
+      console.log("Board a ser deletado:", boardId);
+      Board.deleteBoard(boardId);
+      liElement.remove();
     }
+  } else if (starIcon) {
+    if (starIcon.classList.contains("fa-solid")) {
+      starIcon.classList.remove("fa-solid", "fa-star");
+      starIcon.classList.add("fa-regular", "fa-star");
+      await updateFavoriteStatus(boardId, false);
+    } else {
+      starIcon.classList.remove("fa-regular", "fa-star");
+      starIcon.classList.add("fa-solid", "fa-star");
+      await updateFavoriteStatus(boardId, true);
+    }
+  } else {
+    localStorage.setItem("selectedBoardId", boardId);
+    console.log("Board selecionado:", boardId);
+    const selectedBoardColor =
+      liElement.querySelector("#board-title").style.backgroundColor;
+    listLists.style.backgroundColor = selectedBoardColor;
+    listsContent.style.backgroundColor = selectedBoardColor;
+    listsMenu.style.backgroundColor = selectedBoardColor;
+    content.style.backgroundColor = selectedBoardColor;
+
+    if (boardId) {
+      generateLists(boardId);
+    }
+    classesToToggle.forEach((element) => {
+      if (
+        element === listsContent ||
+        element === sidebar ||
+        element === headerMenu
+      ) {
+        element.classList.remove("hide-content");
+        element.classList.add("show-content");
+      } else {
+        element.classList.remove("show-content");
+        element.classList.add("hide-content");
+      }
+    });
+  }
 });
 
 async function generateLists(boardId) {
@@ -616,12 +667,6 @@ function resetColors() {
   content.style.backgroundColor = "";
 }
 
-// listBoards.addEventListener("click", (event) => {
-//   event.preventDefault();
-//   const iElement = event.target.closest("i");
-//   const trashId = iElement.getAttribute("trash-id");
-//   localStorage.setItem("selectedBoardId", trashId);
-//   console.log("Card a ser deletado:", trashId);
-//   Board.deleteBoard(trashId);
-//   event.stopPropagation();
-// });
+async function updateFavoriteStatus(boardId, isFavorite) {
+  await Board.updateBoardInfo(boardId, { favorito: isFavorite });
+}

@@ -26,4 +26,16 @@ async function deleteBoard(board_id) {
     const deleteBoard = await Fetch.request(`/boards/${board_id}`, null, 'DELETE')
 }
 
-export default {myBoards, create, getBoardLists, deleteBoard};
+async function updateBoardInfo(board_id, { name, color, favorito }) {
+
+    const board = {
+        "name": name,
+        "color": color,
+        "favorito": favorito
+      }
+
+    const updateBoard = await Fetch.request(`/boards/${board_id}`, board, 'PATCH')
+    return updateBoard;
+}
+
+export default {myBoards, create, getBoardLists, deleteBoard, updateBoardInfo};
